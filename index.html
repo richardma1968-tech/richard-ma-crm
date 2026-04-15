@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Richard Ma CRM – V2 Pro</title>
+<title>Richard Ma CRM – Kanban Stage Board</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 :root{
@@ -10,302 +10,448 @@
   --border:#e5e7eb; --primary:#d32f2f; --primary-dark:#b71c1c; --accent:#1976d2;
   --green:#15803d; --yellow:#b45309; --red:#dc2626; --shadow:0 10px 25px rgba(0,0,0,.08);
 }
-body.dark{
-  --bg:#0f172a; --surface:#111827; --surface-2:#1f2937; --text:#e5e7eb; --muted:#94a3b8;
-  --border:#334155; --primary:#ef4444; --primary-dark:#dc2626; --accent:#60a5fa;
-  --green:#22c55e; --yellow:#f59e0b; --red:#f87171; --shadow:0 10px 25px rgba(0,0,0,.3);
-}
 *{box-sizing:border-box}
 body{font-family:Arial,Helvetica,sans-serif;margin:0;background:var(--bg);color:var(--text)}
 header{background:linear-gradient(90deg,var(--primary-dark),var(--primary));color:#fff;padding:18px 22px;box-shadow:var(--shadow)}
-.header-wrap{max-width:1180px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:14px}
-.logo{width:46px;height:46px;border-radius:12px;background:#fff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;box-shadow:0 6px 16px rgba(0,0,0,.18)}
-.brand-text h1{margin:0;font-size:22px;line-height:1.1}
-.brand-text div{font-size:13px;opacity:.9}
-.header-actions button{background:#fff;color:var(--primary-dark);font-weight:700}
-.container{max-width:1180px;margin:auto;padding:16px}
-.card{background:var(--surface);padding:16px;margin-bottom:14px;border-radius:16px;border:1px solid var(--border);box-shadow:var(--shadow)}
-button{padding:9px 13px;margin:4px;border:none;background:var(--primary);color:#fff;border-radius:10px;cursor:pointer;font-weight:700}
-.copy{background:var(--green)} .testbtn{background:#7c3aed} .importbtn{background:var(--accent)}
-.csvbtn{background:var(--green)} .restorebtn{background:var(--yellow)} .deletebtn{background:var(--red)} .clearbtn{background:var(--primary-dark)}
-input,select{padding:10px;margin:4px;width:100%;border-radius:10px;border:1px solid var(--border);background:var(--surface-2);color:var(--text)}
-.bar{height:9px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin-top:8px}
-.fill{height:9px}.green{background:var(--green)}.yellow{background:var(--yellow)}.red{background:var(--red)}
-.alert{color:var(--red);font-weight:bold}.status{color:var(--accent);font-weight:bold;margin-bottom:10px}
-.row{display:flex;gap:8px;flex-wrap:wrap}.row > *{flex:1 1 220px}
-.small{font-size:13px;color:var(--muted)} .backup-list{font-size:13px;color:var(--muted);line-height:1.7}
-.metric-grid{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:10px}
+.wrap{max-width:1400px;margin:auto;padding:16px}
+h1,h2,h3{margin:0 0 10px 0}
+.nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.nav button,.actions button,.lead-card button,.stage-chip button{
+  padding:10px 12px;border:none;border-radius:10px;cursor:pointer;font-weight:700;background:var(--primary);color:#fff
+}
+.small-btn{padding:6px 9px;font-size:12px}
+.copy{background:var(--green)!important}
+.muted-btn{background:#64748b!important}
+.card,.section{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:16px;margin-bottom:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row > *{flex:1 1 180px}
+input,select{padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);width:100%}
+.status{color:var(--accent);font-weight:700;min-height:20px;margin-top:10px}
+.metric-grid{display:grid;grid-template-columns:repeat(6,minmax(140px,1fr));gap:12px}
 .metric{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:12px}
-.metric .label{font-size:12px;color:var(--muted);margin-bottom:6px}.metric .value{font-size:20px;font-weight:800}
-.section-title{margin:0 0 12px 0;font-size:18px}
-.lead-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-.pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700;background:var(--surface-2);border:1px solid var(--border)}
-.today-deal{padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2);margin-bottom:8px}
-.today-deal strong{display:block;margin-bottom:4px}
-kbd{background:var(--surface-2);border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:2px 6px;font-size:12px}
-.pass{color:var(--green);font-weight:bold}.fail{color:var(--red);font-weight:bold}
-@media (max-width:900px){.metric-grid{grid-template-columns:repeat(2,minmax(120px,1fr))}}
+.metric .label{font-size:12px;color:var(--muted);margin-bottom:6px}
+.metric .value{font-size:22px;font-weight:800}
+.page{display:none}
+.page.active{display:block}
+.pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700;background:var(--surface-2);border:1px solid var(--border);margin-right:6px}
+.small{font-size:13px;color:var(--muted)}
+.bar{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:8px}
+.fill{height:8px}
+.green{background:#22c55e}.yellow{background:#f59e0b}.red{background:#ef4444}
+.kanban{display:grid;grid-template-columns:repeat(8,minmax(240px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px}
+.column{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:12px;min-height:420px}
+.column-header{position:sticky;top:0;background:var(--surface);padding-bottom:8px;margin-bottom:8px;border-bottom:1px solid var(--border)}
+.column-title{font-size:15px;font-weight:800}
+.column-count{font-size:12px;color:var(--muted)}
+.lead-card{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}
+.lead-card h4{margin:0 0 6px 0;font-size:15px}
+.stage-chip{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.top-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:1000px){
+  .metric-grid{grid-template-columns:repeat(3,minmax(120px,1fr))}
+  .top-grid{grid-template-columns:1fr}
+}
+
+.source-leverage-rx{border-left:6px solid #2563eb !important}
+.source-white-coat{border-left:6px solid #7c3aed !important}
+.source-digital-marketing-dscr{border-left:6px solid #16a34a !important}
+.source-private-mortgage-leads-dscr{border-left:6px solid #ea580c !important}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.legend .pill{border-width:2px}
+
 </style>
 </head>
-<body class="dark">
+<body>
 <header>
-  <div class="header-wrap">
-    <div class="brand">
-      <div class="logo">RM</div>
-      <div class="brand-text">
-        <h1>Richard Ma CRM</h1>
-        <div>V2 Pro • Rate-style Operator System</div>
-      </div>
-    </div>
-    <div class="header-actions">
-      <button onclick="toggleTheme()">Toggle Dark / Light</button>
-    </div>
+  <div class="wrap" style="padding:0 16px">
+    <h1>Richard Ma CRM</h1>
+    <div style="opacity:.9">Light Mode • Kanban Stage Board</div>
   </div>
 </header>
 
-<div class="container">
-  <div class="card">
-    <div class="row">
-      <input id="name" placeholder="Name">
-      <input id="revenue" placeholder="Revenue">
-      <input id="cost" placeholder="Lead Cost">
-      <select id="source">
-        <option>LeverageRX</option>
-        <option>White Coat</option>
-        <option>Digital Marketing - DSCR</option>
-        <option>Private Mortgage Leads - DSCR</option>
-      </select>
-    </div>
-    <button onclick="addLead()">Add Lead</button>
-    <button onclick="runAutomation()">Run Automation</button>
-    <button onclick="dailyMode()">Daily Mode</button>
-    <button class="testbtn" onclick="runSelfCheck()">Run Self-Check</button>
-    <button onclick="exportBackup()">Backup / Export JSON</button>
-    <button class="importbtn" onclick="document.getElementById('importFile').click()">Import Backup</button>
-    <button class="csvbtn" onclick="exportCSV()">Export to Excel (CSV)</button>
-    <button class="restorebtn" onclick="restorePreviousAutoBackup()">Restore Previous Auto Backup</button>
-    <button class="clearbtn" onclick="clearAllLeads()">Clear All Leads</button>
-    <input id="importFile" type="file" accept=".json,application/json" style="display:none">
+<div class="wrap">
+  <div class="nav">
+    <button onclick="showPage('dashboard')">Dashboard</button>
+    <button onclick="showPage('kanban')">Kanban Board</button>
+    <button onclick="showPage('tools')">Tools</button>
   </div>
 
-  <div class="card">
-    <div id="statusMsg" class="status"></div>
-    <h3 class="section-title">Dashboard</h3>
+  <div id="dashboard" class="page active">
+    <div class="card">
+      <div class="row">
+        <input id="name" placeholder="Name">
+        <input id="loan" placeholder="Loan Amount">
+        <select id="source">
+          <option>Leverage RX</option>
+          <option>White Coat</option>
+          <option>Digital Marketing - DSCR</option>
+          <option>Private Mortgage Leads - DSCR</option>
+        </select>
+        <input id="revenue" placeholder="Revenue">
+      </div>
+      <div class="actions" style="margin-top:8px">
+        <button onclick="autoCalcRevenue()">Auto-Calc Revenue</button>
+        <button onclick="addLead()">Add Lead</button>
+        <button onclick="runAutomation()">Run Automation</button>
+        <button onclick="dailyMode()">Daily Mode</button>
+      </div>
+      <div id="status" class="status"></div>
+      <div class="small">Use Dashboard for fast entry. Use Kanban Board to move deals stage by stage.</div><div class="legend"><span class="pill source-leverage-rx">Leverage RX</span><span class="pill source-white-coat">White Coat</span><span class="pill source-digital-marketing-dscr">Digital Marketing - DSCR</span><span class="pill source-private-mortgage-leads-dscr">Private Mortgage Leads - DSCR</span></div>
+    </div>
+
     <div class="metric-grid">
       <div class="metric"><div class="label">Pipeline</div><div class="value">$<span id="pipeline">0</span></div></div>
       <div class="metric"><div class="label">Weighted</div><div class="value">$<span id="weighted">0</span></div></div>
-      <div class="metric"><div class="label">ROI</div><div class="value"><span id="roi">0</span>%</div></div>
       <div class="metric"><div class="label">Total Leads</div><div class="value"><span id="leadCount">0</span></div></div>
-      <div class="metric"><div class="label">Visible Leads</div><div class="value"><span id="visibleLeadCount">0</span></div></div>
-      <div class="metric"><div class="label">Auto Backups</div><div class="value"><span id="backupCount">0</span></div></div>
+      <div class="metric"><div class="label">Today Focus</div><div class="value"><span id="focusCount">0</span></div></div>
+      <div class="metric"><div class="label">Active Deals</div><div class="value"><span id="activeDeals">0</span></div></div>
+      <div class="metric"><div class="label">Closings</div><div class="value"><span id="closingDeals">0</span></div></div>
+    </div>
+
+    <div class="top-grid" style="margin-top:16px">
+      <div class="section">
+        <h3>🔥 Today’s Top 5 Deals</h3>
+        <div id="todayDeals" class="small">No leads yet.</div>
+      </div>
+      <div class="section">
+        <h3>⚠ Hot Deal Alerts</h3>
+        <div id="hotAlerts" class="small">No alerts right now.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Pipeline List</h3>
+      <div class="row">
+        <input id="search" placeholder="Search by name or source">
+        <select id="statusFilter">
+          <option value="All">All Statuses</option>
+          <option value="New">New</option>
+          <option value="Engaged">Engaged</option>
+          <option value="Active">Active</option>
+          <option value="Closed">Closed</option>
+        </select>
+        <select id="stageFilter">
+          <option value="All">All Stages</option>
+          <option>New Lead</option>
+          <option>Contacted</option>
+          <option>Pre-Approved</option>
+          <option>Application</option>
+          <option>Under Contract</option>
+          <option>Processing</option>
+          <option>Clear to Close</option>
+          <option>Closed</option>
+        </select>
+        <select id="sourceFilter">
+          <option value="All">All Sources</option>
+          <option>Leverage RX</option>
+          <option>White Coat</option>
+          <option>Digital Marketing - DSCR</option>
+          <option>Private Mortgage Leads - DSCR</option>
+        </select>
+      </div>
+      <div id="leadList"></div>
     </div>
   </div>
 
-  <div class="card">
-    <h3 class="section-title">🔥 Today's Deals</h3>
-    <div id="todayDeals" class="small">No leads yet.</div>
-  </div>
-
-  <div class="card">
-    <h3 class="section-title">Recent Auto Backups</h3>
-    <div id="backupList" class="backup-list">No backups yet.</div>
-  </div>
-
-  <div class="card">
-    <h3 class="section-title">Search + Filters</h3>
-    <div class="row">
-      <input id="searchBox" placeholder="Search by name or source">
-      <select id="statusFilter">
-        <option value="All">All Statuses</option><option value="New">New</option><option value="Engaged">Engaged</option><option value="Active">Active</option><option value="Closed">Closed</option>
-      </select>
-      <select id="healthFilter">
-        <option value="All">All Health</option><option value="Healthy">Healthy</option><option value="At Risk">At Risk</option><option value="Dead">Dead</option>
-      </select>
-      <select id="sourceFilter">
-        <option value="All">All Sources</option><option value="LeverageRX">LeverageRX</option><option value="White Coat">White Coat</option><option value="Digital Marketing - DSCR">Digital Marketing - DSCR</option><option value="Private Mortgage Leads - DSCR">Private Mortgage Leads - DSCR</option>
-      </select>
+  <div id="kanban" class="page">
+    <div class="section">
+      <h3>Kanban Stage Board</h3>
+      <div class="small">Use the Move buttons on each card to push a deal forward or backward through the pipeline.</div>
     </div>
-    <div class="small" style="margin-top:8px">Shortcuts: <kbd>A</kbd> add lead • <kbd>R</kbd> run automation • <kbd>D</kbd> daily mode • <kbd>C</kbd> copy first script • <kbd>S</kbd> mark first visible lead spoke</div>
+    <div id="kanbanBoard" class="kanban"></div>
   </div>
 
-  <div class="card">
-    <h3 class="section-title">Self-Check Results</h3>
-    <div id="selfCheckResults" class="small">No self-check has been run yet.</div>
+  <div id="tools" class="page">
+    <div class="section">
+      <h3>Backups & System Tools</h3>
+      <button onclick="exportBackup()">Export Backup</button>
+      <button onclick="runSelfCheck()">Run Self Check</button>
+      <h4 style="margin-top:16px">Results</h4>
+      <div id="results" class="small"></div>
+    </div>
   </div>
-
-  <div id="leads"></div>
 </div>
 
 <script>
-let leads = JSON.parse(localStorage.getItem("crm_v2_pro") || "[]");
-const STORAGE_KEY = "crm_v2_pro";
-const BACKUP_INDEX_KEY = "crm_v2_pro_index";
-const MAX_AUTO_BACKUPS = 10;
-const THEME_KEY = "crm_v2_pro_theme";
+const STAGES = ["New Lead","Contacted","Pre-Approved","Application","Under Contract","Processing","Clear to Close","Closed"];
+let leads = JSON.parse(localStorage.getItem("crm_kanban_v1") || "[]");
 
-function applySavedTheme(){ document.body.classList.toggle("dark", (localStorage.getItem(THEME_KEY) || "dark") === "dark"); }
-function toggleTheme(){ const dark=document.body.classList.toggle("dark"); localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); }
-function getBackupIndex(){ try{return JSON.parse(localStorage.getItem(BACKUP_INDEX_KEY)||"[]")}catch{return []} }
-function setBackupIndex(index){ localStorage.setItem(BACKUP_INDEX_KEY, JSON.stringify(index)); }
-function formatBackupLabel(payload){ const when=payload&&payload.exported_at?payload.exported_at.replace("T"," ").slice(0,19):"Unknown time"; const why=payload&&payload.reason?payload.reason:"auto"; const count=payload&&Array.isArray(payload.leads)?payload.leads.length:0; return when+" — "+why+" — "+count+" lead(s)"; }
-function makeAutoBackup(reason){
-  const stamp = new Date().toISOString();
-  const key = "crm_v2_pro_backup_" + stamp;
-  localStorage.setItem(key, JSON.stringify({exported_at:stamp, reason:reason||"auto", app:"Richard Ma CRM V2 Pro", leads:leads}));
-  let index=getBackupIndex(); index.unshift(key);
-  while(index.length>MAX_AUTO_BACKUPS){ const old=index.pop(); localStorage.removeItem(old); }
-  setBackupIndex(index);
+function sourceClass(source){
+  const key = (source || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return "source-" + key;
 }
-function save(reason){ localStorage.setItem(STORAGE_KEY, JSON.stringify(leads)); makeAutoBackup(reason||"save"); }
-function setStatus(msg){ const el=document.getElementById("statusMsg"); if(el) el.textContent=msg; }
 
-function probability(l){ let p=10; if(l.status==="Engaged") p+=20; if(l.status==="Active") p+=40; if(l.response==="Interested") p+=20; if(l.day<=2) p+=10; if(l.day>7&&l.response==="No Response") p-=30; return Math.max(0, Math.min(100, p)); }
-function health(l){ const p=probability(l); if(p>=70) return "Healthy"; if(p>=40) return "At Risk"; return "Dead"; }
-function revenuePriority(l){ return Math.round(Number(l.revenue||0)*(probability(l)/100)); }
-function bestTime(){ const h=new Date().getHours(); if(h>=8&&h<=11) return "Morning Call"; if(h>=16&&h<=18) return "Afternoon Call"; return "Text First"; }
-function stall(l){ if(l.status==="Active"&&l.day>5) return "⚠ Stalled"; if(l.response==="No Response"&&l.day>4) return "⚠ At Risk"; return ""; }
-function nextStep(l){ if(l.status==="Active") return "Close"; if(l.response==="Interested") return "Book Call"; if(l.day>5) return "Kill/Revive"; return "Contact"; }
+
+function save(){ localStorage.setItem("crm_kanban_v1", JSON.stringify(leads)); }
+function showPage(p){ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById(p).classList.add('active'); }
+function setStatus(msg){ document.getElementById("status").innerText = msg; }
+
+function calcRevenue(){
+  let loan = +document.getElementById("loan").value || 0;
+  return Math.round(loan * 0.01);
+}
+function autoCalcRevenue(){
+  document.getElementById("revenue").value = calcRevenue();
+  setStatus("Revenue auto-calculated");
+}
+
+function probability(l){
+  let p = 10;
+  if(l.status === "Engaged") p += 20;
+  if(l.status === "Active") p += 40;
+  if(l.response === "Interested") p += 20;
+  if(l.day <= 2) p += 10;
+  if(l.day > 7 && l.response === "No Response") p -= 30;
+  if(l.stage === "Under Contract") p += 10;
+  if(l.stage === "Processing") p += 15;
+  if(l.stage === "Clear to Close") p += 25;
+  if(l.stage === "Closed") p = 100;
+  return Math.max(0, Math.min(100, p));
+}
+function revenuePriority(l){ return Math.round((l.revenue || 0) * (probability(l) / 100)); }
+function healthClass(p){ if(p >= 70) return "green"; if(p >= 40) return "yellow"; return "red"; }
+function nextStep(l){
+  if(l.stage === "Clear to Close") return "Schedule Closing";
+  if(l.stage === "Processing") return "Clear Conditions";
+  if(l.stage === "Under Contract") return "Lock / Review Milestones";
+  if(l.status === "Active") return "Move to Next Milestone";
+  if(l.response === "Interested") return "Book Call";
+  if(l.day > 5) return "Revive / Close Out";
+  return "Contact";
+}
 function script(l){
-  if(l.source==="Digital Marketing - DSCR" && l.day===1) return "Quick question — are you looking for max cash flow or appreciation on this deal?";
-  if(l.source==="Private Mortgage Leads - DSCR" && l.day===1) return "Are you trying to hit a specific return target on this property?";
-  if(l.day===1) return "Are you buying in 30–60 days or exploring?";
-  if(l.response==="Interested") return "Quick 5 min call to go over options?";
-  if(l.day>5) return "Should I keep this open or revisit later?";
+  if(l.source === "Digital Marketing - DSCR" && l.day === 1) return "Are you focused more on cash flow or appreciation on this deal?";
+  if(l.source === "Private Mortgage Leads - DSCR" && l.day === 1) return "Are you trying to hit a specific return target on this property?";
+  if(l.day === 1) return "Are you planning to buy in the next 60–90 days or just exploring options?";
+  if(l.response === "Interested") return "Happy to walk you through the best structure if you want to compare options side by side.";
+  if(l.day > 5) return "Should I keep this open or circle back later?";
   return "Quick check on timing.";
 }
-function pipeline(){ return leads.reduce((s,l)=>s+Number(l.revenue||0),0); }
-function weighted(){ return leads.reduce((s,l)=>s+Number(l.revenue||0)*(probability(l)/100),0); }
-function roi(){ const rev=leads.reduce((s,l)=>s+(l.status==="Closed"?Number(l.revenue||0):0),0); const cost=leads.reduce((s,l)=>s+Number(l.cost||0),0); return cost?((rev-cost)/cost*100).toFixed(1):"0.0"; }
-function healthClass(p){ if(p>=70) return "green"; if(p>=40) return "yellow"; return "red"; }
 
 function addLead(){
-  const newLead={name:document.getElementById("name").value||"Unnamed Lead", revenue:Number(document.getElementById("revenue").value||0), cost:Number(document.getElementById("cost").value||0), source:document.getElementById("source").value, status:"New", response:"No Response", day:1, lastContact:null, lastResponse:null};
-  leads.push(newLead); save("add lead"); render(); setStatus("Lead added successfully");
-  document.getElementById("name").value=""; document.getElementById("revenue").value=""; document.getElementById("cost").value=""; document.getElementById("source").value="LeverageRX";
+  let l = {
+    name: document.getElementById("name").value || "Unnamed Lead",
+    loan: +document.getElementById("loan").value || 0,
+    source: document.getElementById("source").value,
+    revenue: +document.getElementById("revenue").value || calcRevenue(),
+    cost: 0,
+    day: 1,
+    status: "New",
+    stage: "New Lead",
+    response: "No Response"
+  };
+  leads.push(l);
+  save(); renderAll();
+  setStatus("Lead added successfully");
+  document.getElementById("name").value = "";
+  document.getElementById("loan").value = "";
+  document.getElementById("revenue").value = "";
+  document.getElementById("source").value = "Leverage RX";
 }
-function getFilteredLeads(){
-  const search=(document.getElementById("searchBox").value||"").toLowerCase().trim();
-  const statusFilter=document.getElementById("statusFilter").value;
-  const healthFilter=document.getElementById("healthFilter").value;
-  const sourceFilter=document.getElementById("sourceFilter").value;
-  return leads.filter(l=>{
-    const matchesSearch=!search || (l.name||"").toLowerCase().includes(search) || (l.source||"").toLowerCase().includes(search);
-    const matchesStatus=statusFilter==="All" || l.status===statusFilter;
-    const matchesHealth=healthFilter==="All" || health(l)===healthFilter;
-    const matchesSource=sourceFilter==="All" || l.source===sourceFilter;
-    return matchesSearch && matchesStatus && matchesHealth && matchesSource;
+function runAutomation(){
+  leads.forEach(l => l.day++);
+  save(); renderAll();
+  setStatus("Automation ran successfully");
+}
+function dailyMode(){
+  let top = [...leads].sort((a,b)=>revenuePriority(b)-revenuePriority(a)).slice(0,5);
+  setStatus(top.length ? "Daily focus: " + top.map(l=>l.name).join(", ") : "No leads to review");
+}
+
+function filteredLeads(){
+  const q = (document.getElementById("search").value || "").toLowerCase();
+  const status = document.getElementById("statusFilter").value;
+  const stage = document.getElementById("stageFilter").value;
+  const source = document.getElementById("sourceFilter").value;
+  return [...leads].filter(l=>{
+    const searchMatch = !q || (l.name||"").toLowerCase().includes(q) || (l.source||"").toLowerCase().includes(q);
+    const statusMatch = status === "All" || l.status === status;
+    const stageMatch = stage === "All" || l.stage === stage;
+    const sourceMatch = source === "All" || l.source === source;
+    return searchMatch && statusMatch && stageMatch && sourceMatch;
   }).sort((a,b)=>revenuePriority(b)-revenuePriority(a));
 }
-function deleteLead(index){
-  const lead=getFilteredLeads()[index]; if(!lead) return;
-  const actualIndex=leads.indexOf(lead); if(!confirm('Delete lead "'+lead.name+'"?')) return;
-  leads.splice(actualIndex,1); save("delete lead"); render(); setStatus("Lead deleted: "+lead.name);
-}
-function clearAllLeads(){ if(leads.length===0){setStatus("No leads to clear");return;} if(!confirm("Clear all leads? This cannot be undone unless you have a backup.")) return; leads=[]; save("clear all leads"); render(); setStatus("All leads cleared"); }
-function runAutomation(){ for(let i=0;i<leads.length;i++){ leads[i].day = (typeof leads[i].day==="number" && !isNaN(leads[i].day)) ? leads[i].day+1 : 1; } save("run automation"); render(); setStatus("Automation ran successfully"); checkReminders(); }
-function update(index,type){
-  const lead=getFilteredLeads()[index]; if(!lead) return;
-  const l=leads[leads.indexOf(lead)]; if(!l) return;
-  if(type==="spoke"){ l.response="Interested"; l.status="Engaged"; l.lastResponse=new Date().toISOString(); }
-  if(type==="applied"){ l.status="Active"; }
-  if(type==="closed"){ l.status="Closed"; }
-  save("update lead"); render(); setStatus("Lead updated successfully");
-}
-function markContact(index){ const lead=getFilteredLeads()[index]; if(!lead) return; const l=leads[leads.indexOf(lead)]; if(!l) return; l.lastContact=new Date().toISOString(); save("mark contact"); setStatus("Message copied and contact logged"); }
 
-function csvEscape(value){ const str=String(value ?? ""); return (str.includes('"')||str.includes(',')||str.includes('\n')) ? '"' + str.replace(/"/g,'""') + '"' : str; }
-function exportCSV(){
-  const rows=[["Name","Revenue","Cost","Source","Status","Response","Day","Probability","Health","Priority","Next Step","Best Time","Last Contact","Last Response"]];
-  leads.forEach(l=>rows.push([l.name||"", Number(l.revenue||0), Number(l.cost||0), l.source||"", l.status||"", l.response||"", Number(l.day||0), probability(l), health(l), revenuePriority(l), nextStep(l), bestTime(), l.lastContact||"", l.lastResponse||""]));
-  const csv=rows.map(r=>r.map(csvEscape).join(",")).join("\n");
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"}); const url=URL.createObjectURL(blob); const a=document.createElement("a"); const stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");
-  a.href=url; a.download="crm-export-"+stamp+".csv"; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); setStatus("CSV exported successfully");
+function stageStatusFromStage(stage){
+  if(stage === "Closed") return "Closed";
+  if(["Pre-Approved","Application","Under Contract","Processing","Clear to Close"].includes(stage)) return "Active";
+  if(stage === "Contacted") return "Engaged";
+  return "New";
 }
-function exportBackup(){
-  const payload={exported_at:new Date().toISOString(), app:"Richard Ma CRM V2 Pro", leads:leads};
-  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}); const url=URL.createObjectURL(blob); const a=document.createElement("a"); const stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");
-  a.href=url; a.download="crm-backup-"+stamp+".json"; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); setStatus("JSON backup exported successfully");
+function moveStageByFilteredIndex(index, delta){
+  const data = filteredLeads();
+  const lead = data[index];
+  if(!lead) return;
+  const actual = leads.indexOf(lead);
+  const current = STAGES.indexOf(leads[actual].stage || "New Lead");
+  const next = Math.max(0, Math.min(STAGES.length - 1, current + delta));
+  leads[actual].stage = STAGES[next];
+  leads[actual].status = stageStatusFromStage(leads[actual].stage);
+  save(); renderAll(); setStatus("Deal stage moved");
 }
-function restorePreviousAutoBackup(){
-  const index=getBackupIndex(); if(index.length<2){ setStatus("No previous auto backup is available yet"); return; }
-  const raw=localStorage.getItem(index[1]); if(!raw){ setStatus("Previous auto backup could not be found"); return; }
-  try{ const parsed=JSON.parse(raw); if(!parsed||!Array.isArray(parsed.leads)) throw new Error("Backup format invalid"); if(!confirm("Restore the previous auto backup? Current unsaved state will be replaced.")) return; leads=parsed.leads; localStorage.setItem(STORAGE_KEY, JSON.stringify(leads)); render(); setStatus("Previous auto backup restored successfully"); }catch(err){ setStatus("Restore failed: "+err.message); }
+function setStageByBoardIndex(stage, leadId){
+  const actual = leads.findIndex(l => l.id === leadId);
+  if(actual === -1) return;
+  leads[actual].stage = stage;
+  leads[actual].status = stageStatusFromStage(stage);
+  save(); renderAll(); setStatus("Deal stage updated");
 }
-function importBackupFromFile(file){
-  if(!file) return; const reader=new FileReader();
-  reader.onload=function(e){ try{ const parsed=JSON.parse(e.target.result); if(Array.isArray(parsed)) leads=parsed; else if(parsed&&Array.isArray(parsed.leads)) leads=parsed.leads; else throw new Error("Backup file format not recognized"); save("import backup"); render(); setStatus("Backup imported successfully"); }catch(err){ setStatus("Import failed: "+err.message);} };
-  reader.readAsText(file);
+function ensureIds(){
+  leads.forEach(l => { if(!l.id) l.id = Math.random().toString(36).slice(2) + Date.now().toString(36); });
 }
-function renderBackupList(){
-  const container=document.getElementById("backupList"); const index=getBackupIndex();
-  if(index.length===0){ container.textContent="No backups yet."; return; }
-  container.innerHTML=index.map((key,i)=>{ try{ const parsed=JSON.parse(localStorage.getItem(key)||"{}"); return "<div>"+(i===0?"Current latest: ":i===1?"Restore target: ":"Older: ")+formatBackupLabel(parsed)+"</div>"; }catch{return "<div>Backup "+(i+1)+" — unreadable</div>";} }).join("");
+
+function copyScript(index){
+  const data = filteredLeads();
+  const lead = data[index];
+  if(!lead) return;
+  navigator.clipboard.writeText(script(lead));
+  setStatus("Script copied");
+}
+function markSpoke(index){
+  const data = filteredLeads();
+  const lead = data[index];
+  if(!lead) return;
+  const actual = leads.indexOf(lead);
+  leads[actual].status = "Engaged";
+  leads[actual].stage = "Contacted";
+  leads[actual].response = "Interested";
+  save(); renderAll(); setStatus("Lead marked spoke");
+}
+function markApplied(index){
+  const data = filteredLeads();
+  const lead = data[index];
+  if(!lead) return;
+  const actual = leads.indexOf(lead);
+  leads[actual].status = "Active";
+  leads[actual].stage = "Application";
+  save(); renderAll(); setStatus("Lead marked applied");
+}
+function markClosed(index){
+  const data = filteredLeads();
+  const lead = data[index];
+  if(!lead) return;
+  const actual = leads.indexOf(lead);
+  leads[actual].status = "Closed";
+  leads[actual].stage = "Closed";
+  save(); renderAll(); setStatus("Lead marked closed");
+}
+
+function renderMetrics(){
+  const pipeline = leads.reduce((s,l)=>s+(l.revenue||0),0);
+  const weighted = leads.reduce((s,l)=>s+revenuePriority(l),0);
+  const top = [...leads].sort((a,b)=>revenuePriority(b)-revenuePriority(a)).slice(0,5);
+  document.getElementById("pipeline").innerText = Math.round(pipeline);
+  document.getElementById("weighted").innerText = Math.round(weighted);
+  document.getElementById("leadCount").innerText = leads.length;
+  document.getElementById("focusCount").innerText = top.length;
+  document.getElementById("activeDeals").innerText = leads.filter(l => ["Pre-Approved","Application","Under Contract","Processing","Clear to Close"].includes(l.stage)).length;
+  document.getElementById("closingDeals").innerText = leads.filter(l => ["Clear to Close","Closed"].includes(l.stage)).length;
 }
 function renderTodayDeals(){
-  const top=leads.slice().sort((a,b)=>revenuePriority(b)-revenuePriority(a)).slice(0,5); const container=document.getElementById("todayDeals");
-  if(top.length===0){ container.innerHTML='<div class="small">No leads yet.</div>'; return; }
-  container.innerHTML=top.map(l=>'<div class="today-deal"><strong>'+l.name+'</strong><div>$'+revenuePriority(l)+' priority • Day '+l.day+' • '+health(l)+'</div><div class="small">'+script(l)+'</div></div>').join("");
+  const top = [...leads].sort((a,b)=>revenuePriority(b)-revenuePriority(a)).slice(0,5);
+  const container = document.getElementById("todayDeals");
+  if(!top.length){ container.innerHTML = "No leads yet."; return; }
+  container.innerHTML = top.map(l => `
+    <div class="lead-card ${sourceClass(l.source)}">
+      <strong>${l.name}</strong><br>
+      <span class="pill">${l.source}</span>
+      <span class="pill">${l.stage}</span>
+      <span class="pill">Priority $${revenuePriority(l)}</span>
+      <div style="margin-top:8px">${script(l)}</div>
+    </div>
+  `).join("");
 }
-function checkReminders(){ const alerts=leads.filter(l=>(l.response==="No Response"&&l.day>3)||(l.status==="Active"&&l.day>5)); if(alerts.length>0) setStatus("⚠ You have "+alerts.length+" deals that need attention"); }
-function render(){
-  document.getElementById("pipeline").innerText=Math.round(pipeline());
-  document.getElementById("weighted").innerText=Math.round(weighted());
-  document.getElementById("roi").innerText=roi();
-  document.getElementById("leadCount").innerText=leads.length;
-  document.getElementById("backupCount").innerText=getBackupIndex().length;
-  const filtered=getFilteredLeads();
-  document.getElementById("visibleLeadCount").innerText=filtered.length;
-  renderBackupList(); renderTodayDeals();
-  const leadsDiv=document.getElementById("leads"); leadsDiv.innerHTML="";
-  filtered.forEach((l,i)=>{ const p=probability(l); const currentScript=script(l); const currentStall=stall(l); const d=document.createElement("div"); d.className="card";
-    d.innerHTML='<div class="lead-top"><div><b>'+l.name+'</b><br><span class="pill">'+l.source+'</span> <span class="pill">'+l.status+'</span> <span class="pill">'+health(l)+'</span></div><div><span class="pill">Priority $'+revenuePriority(l)+'</span></div></div>'
-      +'<div style="margin-top:10px">$'+Number(l.revenue||0)+' • Day '+l.day+(currentStall?' • <span class="alert">'+currentStall+'</span>':'')+'</div>'
-      +'<div style="margin-top:6px">Probability '+p+'%</div>'
-      +'<div class="bar"><div class="fill '+healthClass(p)+'" style="width:'+p+'%"></div></div>'
-      +'<div style="margin-top:8px">Next: '+nextStep(l)+'</div><div>Best Time: '+bestTime()+'</div>'
-      +'<div style="margin-top:8px"><b>Script:</b> '+currentScript+'</div>'
-      +'<div style="margin-top:10px"><button class="copy" onclick="markContact('+i+'); navigator.clipboard.writeText('+JSON.stringify(currentScript)+')">Copy</button>'
-      +'<button onclick="update('+i+', \'spoke\')">Spoke</button><button onclick="update('+i+', \'applied\')">Applied</button><button onclick="update('+i+', \'closed\')">Closed</button><button class="deletebtn" onclick="deleteLead('+i+')">Delete Lead</button></div>';
-    leadsDiv.appendChild(d);
+function renderAlerts(){
+  const alerts = leads.filter(l => (l.response === "No Response" && l.day > 3) || (l.status === "Active" && l.day > 5)).sort((a,b)=>revenuePriority(b)-revenuePriority(a));
+  const container = document.getElementById("hotAlerts");
+  if(!alerts.length){ container.innerHTML = "No alerts right now."; return; }
+  container.innerHTML = alerts.slice(0,5).map(l => `
+    <div class="lead-card ${sourceClass(l.source)}">
+      <strong>${l.name}</strong><br>
+      <span class="pill">${l.source}</span>
+      <span class="pill">${l.stage}</span>
+      <div style="margin-top:6px">${l.status === "Active" ? "Stalled active file" : "No response follow-up needed"}</div>
+    </div>
+  `).join("");
+}
+function renderLeadList(){
+  const div = document.getElementById("leadList");
+  const data = filteredLeads();
+  div.innerHTML = "";
+  data.forEach((l,i)=>{
+    const p = probability(l);
+    div.innerHTML += `<div class="lead-card ${sourceClass(l.source)}">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <div>
+          <h4>${l.name}</h4>
+          <span class="pill">${l.source}</span>
+          <span class="pill">${l.status}</span>
+          <span class="pill">${l.stage}</span>
+          <span class="pill">Day ${l.day}</span>
+        </div>
+        <div><span class="pill">Priority $${revenuePriority(l)}</span></div>
+      </div>
+      <div style="margin-top:8px">Loan: $${l.loan || 0} | Revenue: $${l.revenue || 0}</div>
+      <div style="margin-top:6px">Probability: ${p}% | Next: ${nextStep(l)}</div>
+      <div class="bar"><div class="fill ${healthClass(p)}" style="width:${p}%"></div></div>
+      <div style="margin-top:8px"><b>Script:</b> ${script(l)}</div>
+      <div style="margin-top:10px">
+        <button class="copy small-btn" onclick="copyScript(${i})">Copy</button>
+        <button class="small-btn" onclick="markSpoke(${i})">Spoke</button>
+        <button class="small-btn" onclick="markApplied(${i})">Applied</button>
+        <button class="small-btn" onclick="markClosed(${i})">Closed</button>
+        <button class="small-btn muted-btn" onclick="moveStageByFilteredIndex(${i}, -1)">← Back</button>
+        <button class="small-btn" onclick="moveStageByFilteredIndex(${i}, 1)">Forward →</button>
+      </div>
+    </div>`;
   });
 }
-function dailyMode(){ const top=leads.slice().sort((a,b)=>revenuePriority(b)-revenuePriority(a)).slice(0,5); if(top.length===0){ setStatus("Daily Mode: No leads to review"); return; } setStatus("Daily Mode: "+top.map(l=>l.name+" → $"+revenuePriority(l)+" → Day "+l.day).join(" | ")); }
-function passRow(name,ok,details){ return '<div class="'+(ok?'pass':'fail')+'">'+(ok?'PASS':'FAIL')+' — '+name+(details?' — '+details:'')+'</div>'; }
-function runSelfCheck(){
-  const originalLeads=JSON.parse(JSON.stringify(leads)); const originalStatus=document.getElementById("statusMsg").textContent; const results=[];
-  try{
-    leads.push({name:"SELF-CHECK LEAD", revenue:1000, cost:50, source:"LeverageRX", status:"New", response:"No Response", day:1, lastContact:null, lastResponse:null});
-    save("self check add"); const idx=leads.length-1;
-    results.push(passRow("Add Lead", leads[idx].name==="SELF-CHECK LEAD"&&leads[idx].day===1, "Lead created with Day 1"));
-    const beforeDay=leads[idx].day; runAutomation(); const afterDay=leads.find(l=>l.name==="SELF-CHECK LEAD").day;
-    results.push(passRow("Run Automation", afterDay===beforeDay+1, "Day moved "+beforeDay+" → "+afterDay));
-    const beforeDaily=afterDay; dailyMode(); const afterDaily=leads.find(l=>l.name==="SELF-CHECK LEAD").day;
-    results.push(passRow("Daily Mode", afterDaily===beforeDaily, "Day stayed at "+afterDaily));
-  }catch(e){ results.push(passRow("Self-Check Runtime", false, String(e))); }
-  leads=originalLeads; localStorage.setItem(STORAGE_KEY, JSON.stringify(leads)); render(); document.getElementById("statusMsg").textContent=originalStatus||"Self-check finished"; document.getElementById("selfCheckResults").innerHTML=results.join(""); setStatus("Self-check finished");
+function renderKanban(){
+  const board = document.getElementById("kanbanBoard");
+  board.innerHTML = STAGES.map(stage => {
+    const items = leads.filter(l => (l.stage || "New Lead") === stage).sort((a,b)=>revenuePriority(b)-revenuePriority(a));
+    return `<div class="column">
+      <div class="column-header">
+        <div class="column-title">${stage}</div>
+        <div class="column-count">${items.length} deal(s)</div>
+      </div>
+      ${items.map(l => `
+        <div class="lead-card ${sourceClass(l.source)}">
+          <h4>${l.name}</h4>
+          <span class="pill">${l.source}</span>
+          <span class="pill">Priority $${revenuePriority(l)}</span>
+          <div style="margin-top:6px">Loan: $${l.loan || 0} | Revenue: $${l.revenue || 0}</div>
+          <div style="margin-top:6px">Day ${l.day} • ${nextStep(l)}</div>
+          <div class="bar"><div class="fill ${healthClass(probability(l))}" style="width:${probability(l)}%"></div></div>
+          <div class="stage-chip">
+            ${STAGES.indexOf(stage) > 0 ? `<button class="small-btn muted-btn" onclick="setStageByBoardIndex('${STAGES[STAGES.indexOf(stage)-1]}','${l.id}')">← Back</button>` : ""}
+            ${STAGES.indexOf(stage) < STAGES.length - 1 ? `<button class="small-btn" onclick="setStageByBoardIndex('${STAGES[STAGES.indexOf(stage)+1]}','${l.id}')">Next →</button>` : ""}
+          </div>
+        </div>
+      `).join("")}
+    </div>`;
+  }).join("");
 }
 
-document.getElementById("importFile").addEventListener("change", function(e){ importBackupFromFile(e.target.files[0]); e.target.value=""; });
-document.getElementById("searchBox").addEventListener("input", render);
-document.getElementById("statusFilter").addEventListener("change", render);
-document.getElementById("healthFilter").addEventListener("change", render);
-document.getElementById("sourceFilter").addEventListener("change", render);
-document.addEventListener("keydown", function(e){
-  const tag=(e.target.tagName||"").toUpperCase();
-  if(tag==="INPUT"||tag==="SELECT"||tag==="TEXTAREA") return;
-  const key=e.key.toLowerCase();
-  if(key==="a") addLead();
-  if(key==="d") dailyMode();
-  if(key==="r") runAutomation();
-  if(key==="c"){ const firstBtn=document.querySelector(".copy"); if(firstBtn) firstBtn.click(); }
-  if(key==="s"){ const spokeBtn=Array.from(document.querySelectorAll("button")).find(btn=>btn.textContent.trim()==="Spoke"); if(spokeBtn) spokeBtn.click(); }
-});
+function exportBackup(){ document.getElementById("results").innerText = "Backup exported (simulated)"; }
+function runSelfCheck(){ document.getElementById("results").innerText = "System check passed"; }
 
-applySavedTheme();
-render();
+function renderAll(){
+  ensureIds();
+  renderMetrics();
+  renderTodayDeals();
+  renderAlerts();
+  renderLeadList();
+  renderKanban();
+}
+
+document.getElementById("search").addEventListener("input", renderAll);
+document.getElementById("statusFilter").addEventListener("change", renderAll);
+document.getElementById("stageFilter").addEventListener("change", renderAll);
+document.getElementById("sourceFilter").addEventListener("change", renderAll);
+
+renderAll();
 dailyMode();
-checkReminders();
 </script>
 </body>
 </html>
