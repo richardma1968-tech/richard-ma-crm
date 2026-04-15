@@ -97,6 +97,7 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
     <button onclick="showPage('dashboard')">Dashboard</button>
     <button onclick="showPage('kanban')">Kanban Board</button>
     <button onclick="showPage('tools')">Tools</button>
+    <button onclick="showPage('deploy')">Deploy Checklist</button>
   </div>
 
   <div id="dashboard" class="page active">
@@ -203,7 +204,93 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
       <h4 style="margin-top:16px">Results</h4>
       <div id="results" class="small"></div>
     </div>
+  
+  <div id="deploy" class="page">
+    <div class="section">
+      <h3>Deploy Checklist</h3>
+      <div class="small">Use this every time you move a new HTML upgrade to GitHub and Vercel.</div>
+      <div class="lead-card" style="margin-top:12px">
+        <strong>1. Test locally first</strong>
+        <div class="small" style="margin-top:6px">
+          Open the new HTML file locally and test:
+          <br>• Add Lead
+          <br>• Run Automation
+          <br>• Daily Mode
+          <br>• Kanban Board
+          <br>• Backup JSON
+        </div>
+      </div>
+      <div class="lead-card">
+        <strong>2. Confirm version details</strong>
+        <div class="small" style="margin-top:6px">
+          Check that the header shows the correct:
+          <br>• Version
+          <br>• Updated date
+          <br>• Updated time
+        </div>
+      </div>
+      <div class="lead-card">
+        <strong>3. Prepare the file</strong>
+        <div class="small" style="margin-top:6px">
+          Rename the final file to:
+          <br><b>index.html</b>
+          <br>Make sure it is a real .html file, not .txt
+        </div>
+      </div>
+      <div class="lead-card">
+        <strong>4. Update GitHub</strong>
+        <div class="small" style="margin-top:6px">
+          Open your repo → open index.html → click Edit → replace all code → Commit changes
+        </div>
+      </div>
+      <div class="lead-card">
+        <strong>5. Let Vercel deploy</strong>
+        <div class="small" style="margin-top:6px">
+          Open Vercel and wait for the new deployment to finish.
+        </div>
+      </div>
+      <div class="lead-card">
+        <strong>6. Verify live</strong>
+        <div class="small" style="margin-top:6px">
+          Open the live URL and hard refresh:
+          <br><b>Ctrl + Shift + R</b>
+          <br>Confirm:
+          <br>• Version matches
+          <br>• Updated time matches
+          <br>• Deployment status says Live
+          <br>• No version mismatch warning
+        </div>
+      </div>
+      <div class="lead-card">
+        <strong>7. Final live test</strong>
+        <div class="small" style="margin-top:6px">
+          Test:
+          <br>• Add Lead
+          <br>• Run Automation
+          <br>• Daily Mode
+          <br>• Follow-Up Due Today
+          <br>• Kanban stage movement
+        </div>
+      </div>
+      <div class="lead-card">
+        <strong>8. Safety backup</strong>
+        <div class="small" style="margin-top:6px">
+          Click <b>Backup JSON</b> after deployment and save it in your CRM Backups folder.
+        </div>
+      </div>
+      <div class="lead-card">
+        <strong>9. Working file rule</strong>
+        <div class="small" style="margin-top:6px">
+          Keep one master local file:
+          <br><b>CRM Master &gt; index.html</b>
+          <br>Archive older versions in:
+          <br><b>CRM Backups</b>
+        </div>
+      </div>
+    </div>
   </div>
+
+</div>
 </div>
 
 <script>
