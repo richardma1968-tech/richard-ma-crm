@@ -52,6 +52,14 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
 .attempt-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .followup-box{margin-top:8px;padding:10px;border-radius:10px;background:#ecfeff;border:1px solid #a5f3fc;color:#155e75;font-size:13px}
 .backup-reminder{margin-top:12px;padding:12px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:13px}
+.deploy-status{margin-top:12px;padding:12px;border-radius:12px;font-size:13px;font-weight:700}
+.deploy-live{background:#ecfdf5;border:1px solid #86efac;color:#166534}
+.deploy-local{background:#fff7ed;border:1px solid #fdba74;color:#9a3412}
+.deploy-preview{background:#eff6ff;border:1px solid #93c5fd;color:#1d4ed8}
+.version-warning{margin-top:12px;padding:12px;border-radius:12px;font-size:13px;font-weight:700;display:none}
+.version-warning-mismatch{background:#fff1f2;border:1px solid #fda4af;color:#9f1239}
+.version-warning-match{background:#ecfdf5;border:1px solid #86efac;color:#166534}
+
 .due-box{margin-top:8px;padding:10px;border-radius:10px;background:#fff1f2;border:1px solid #fecdd3;color:#9f1239;font-size:13px}
 
 .stage-chip{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
@@ -71,13 +79,15 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
 <body>
 <header>
   <div class="wrap" style="padding:0 16px">
-    <h1>Richard Ma CRM</h1><div style="font-size:12px;margin-top:4px;">Version: V3.0 • Updated: 2026-04-15</div>
+    <h1>Richard Ma CRM</h1><div id="versionBadge" style="font-size:12px;margin-top:4px;">Version: V3.1 • Updated: 2026-04-15 02:10 PM</div>
     <div style="opacity:.9">Light Mode • Kanban Board • Advanced Scoring Model</div>
   </div>
 </header>
 
 <div class="wrap">
-  <div id="backupReminder" class="backup-reminder" style="display:none"></div>
+  <div id="deploymentStatus" class="deploy-status" style="display:none"></div>
+<div id="versionWarning" class="version-warning" style="display:none"></div>
+<div id="backupReminder" class="backup-reminder" style="display:none"></div>
 
 <div class="nav">
     <button onclick="exportBackup()">Backup JSON</button>
@@ -762,6 +772,100 @@ function formatBackupReminderDate(iso){
   if(isNaN(d.getTime())) return "unknown";
   return d.toLocaleDateString();
 }
+
+const APP_VERSION = "V3.1";
+const APP_UPDATED_AT = "2026-04-15 02:10 PM";
+
+const DEPLOY_VERSION_KEY = "crm_deploy_version";
+const DEPLOY_UPDATED_KEY = "crm_deploy_updated_at";
+
+function getCurrentBuildSignature(){
+  return APP_VERSION + " • " + APP_UPDATED_AT;
+}
+
+function renderVersionWarning(){
+  const box = document.getElementById("versionWarning");
+  const protocol = window.location.protocol || "";
+  const host = window.location.hostname || "";
+  const current = getCurrentBuildSignature();
+
+  // Live Vercel version becomes the reference
+  if(host.includes("vercel.app")){
+    localStorage.setItem(DEPLOY_VERSION_KEY, APP_VERSION);
+    localStorage.setItem(DEPLOY_UPDATED_KEY, APP_UPDATED_AT);
+  }
+
+  const liveVersion = localStorage.getItem(DEPLOY_VERSION_KEY);
+  const liveUpdated = localStorage.getItem(DEPLOY_UPDATED_KEY);
+  const knownLive = liveVersion && liveUpdated ? (liveVersion + " • " + liveUpdated) : "";
+
+  let show = false;
+  let cls = "version-warning-match";
+  let text = "";
+
+  if(protocol === "file:" && knownLive){
+    show = true;
+    if(current !== knownLive){
+      cls = "version-warning-mismatch";
+      text = "Version mismatch warning — This local file does not match the most recently opened live Vercel version. Local: " + current + " | Live: " + knownLive;
+    } else {
+      cls = "version-warning-match";
+      text = "Version check — This local file matches the most recently opened live Vercel version.";
+    }
+  } else if(host.includes("vercel.app")){
+    show = true;
+    cls = "version-warning-match";
+    text = "Version check — You are viewing the live deployment reference for this CRM.";
+  } else if(knownLive){
+    show = true;
+    if(current !== knownLive){
+      cls = "version-warning-mismatch";
+      text = "Version mismatch warning — This hosted copy does not match the most recently opened live Vercel version.";
+    } else {
+      cls = "version-warning-match";
+      text = "Version check — This hosted copy matches the most recently opened live Vercel version.";
+    }
+  }
+
+  box.className = "version-warning " + cls;
+  box.style.display = show ? "block" : "none";
+  box.textContent = text;
+}
+
+
+function renderDeploymentStatus(){
+  const box = document.getElementById("deploymentStatus");
+  const host = window.location.hostname || "";
+  const protocol = window.location.protocol || "";
+  let cls = "deploy-local";
+  let text = "Local Preview — You are viewing a local file. Upload to GitHub/Vercel to make this live.";
+  if(protocol === "file:"){
+    cls = "deploy-local";
+    text = "Local Preview — You are viewing a local file. Upload to GitHub/Vercel to make this live.";
+  } else if(host.includes("vercel.app")){
+    cls = "deploy-live";
+    text = "Live Deployment — This is the live Vercel version now serving publicly.";
+  } else if(host === "localhost" || host === "127.0.0.1"){
+    cls = "deploy-preview";
+    text = "Local Server Preview — You are viewing a development/preview environment.";
+  } else if(host){
+    cls = "deploy-preview";
+    text = "Hosted Preview — You are viewing a hosted copy on " + host + ".";
+  }
+  box.className = "deploy-status " + cls;
+  box.style.display = "block";
+  box.textContent = text + " • " + APP_VERSION + " • Updated " + APP_UPDATED_AT;
+}
+
+function renderVersionBadge(){
+  const protocol = window.location.protocol || "";
+  const env = protocol === "file:" ? "Local" : "Hosted";
+  const badge = document.getElementById("versionBadge");
+  if(badge){
+    badge.textContent = "Version: " + APP_VERSION + " • Updated: " + APP_UPDATED_AT + " • Mode: " + env;
+  }
+}
+
 function renderBackupReminder(){
   const box = document.getElementById("backupReminder");
   const last = localStorage.getItem("crm_last_backup_at");
@@ -797,6 +901,9 @@ document.getElementById("importBackupFile").addEventListener("change", function(
 
 function renderAll(){
   ensureIds();
+  renderDeploymentStatus();
+  renderVersionBadge();
+  renderVersionWarning();
   renderBackupReminder();
   renderFollowUpDueToday();
   renderMetrics();
