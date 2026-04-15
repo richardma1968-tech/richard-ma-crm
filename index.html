@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Richard Ma CRM – Kanban Stage Board</title>
+<title>Richard Ma CRM – Kanban Scoring Model</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 :root{
@@ -45,27 +45,33 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
 .column-count{font-size:12px;color:var(--muted)}
 .lead-card{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}
 .lead-card h4{margin:0 0 6px 0;font-size:15px}
+.priority-box{margin-top:8px;padding:10px;border-radius:10px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:13px}
+.action-box{margin-top:8px;padding:10px;border-radius:10px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:13px}
+.script-box{margin-top:8px;padding:10px;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;font-size:13px}
+.attempt-box{margin-top:8px;padding:10px;border-radius:10px;background:#faf5ff;border:1px solid #e9d5ff;color:#6b21a8;font-size:13px}
+.attempt-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.followup-box{margin-top:8px;padding:10px;border-radius:10px;background:#ecfeff;border:1px solid #a5f3fc;color:#155e75;font-size:13px}
+.due-box{margin-top:8px;padding:10px;border-radius:10px;background:#fff1f2;border:1px solid #fecdd3;color:#9f1239;font-size:13px}
+
 .stage-chip{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .top-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media (max-width:1000px){
-  .metric-grid{grid-template-columns:repeat(3,minmax(120px,1fr))}
-  .top-grid{grid-template-columns:1fr}
-}
-
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.legend .pill{border-width:2px}
 .source-leverage-rx{border-left:6px solid #2563eb !important}
 .source-white-coat{border-left:6px solid #7c3aed !important}
 .source-digital-marketing-dscr{border-left:6px solid #16a34a !important}
 .source-private-mortgage-leads-dscr{border-left:6px solid #ea580c !important}
-.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-.legend .pill{border-width:2px}
-
+@media (max-width:1000px){
+  .metric-grid{grid-template-columns:repeat(3,minmax(120px,1fr))}
+  .top-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 <header>
   <div class="wrap" style="padding:0 16px">
     <h1>Richard Ma CRM</h1>
-    <div style="opacity:.9">Light Mode • Kanban Stage Board</div>
+    <div style="opacity:.9">Light Mode • Kanban Board • Advanced Scoring Model</div>
   </div>
 </header>
 
@@ -96,7 +102,18 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
         <button onclick="dailyMode()">Daily Mode</button>
       </div>
       <div id="status" class="status"></div>
-      <div class="small">Use Dashboard for fast entry. Use Kanban Board to move deals stage by stage.</div><div class="legend"><span class="pill source-leverage-rx">Leverage RX</span><span class="pill source-white-coat">White Coat</span><span class="pill source-digital-marketing-dscr">Digital Marketing - DSCR</span><span class="pill source-private-mortgage-leads-dscr">Private Mortgage Leads - DSCR</span></div>
+      <div class="small">Scoring now uses stage, source, engagement, and time decay. Top 5 deals are ranked by score, not just revenue.</div>
+      <div class="legend">
+        <span class="pill source-leverage-rx">Leverage RX</span>
+        <span class="pill source-white-coat">White Coat</span>
+        <span class="pill source-digital-marketing-dscr">Digital Marketing - DSCR</span>
+        <span class="pill source-private-mortgage-leads-dscr">Private Mortgage Leads - DSCR</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>📅 Follow-Up Due Today</h3>
+      <div id="followUpDueToday" class="small">No follow-ups due right now.</div>
     </div>
 
     <div class="metric-grid">
@@ -156,7 +173,7 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
   <div id="kanban" class="page">
     <div class="section">
       <h3>Kanban Stage Board</h3>
-      <div class="small">Use the Move buttons on each card to push a deal forward or backward through the pipeline.</div>
+      <div class="small">Move deals through stages using Back and Next. Score updates automatically.</div>
     </div>
     <div id="kanbanBoard" class="kanban"></div>
   </div>
@@ -174,17 +191,16 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
 
 <script>
 const STAGES = ["New Lead","Contacted","Pre-Approved","Application","Under Contract","Processing","Clear to Close","Closed"];
-let leads = JSON.parse(localStorage.getItem("crm_kanban_v1") || "[]");
+let leads = JSON.parse(localStorage.getItem("crm_kanban_scoring_model") || "[]");
 
 function sourceClass(source){
   const key = (source || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   return "source-" + key;
 }
-
-
-function save(){ localStorage.setItem("crm_kanban_v1", JSON.stringify(leads)); }
+function save(){ localStorage.setItem("crm_kanban_scoring_model", JSON.stringify(leads)); }
 function showPage(p){ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById(p).classList.add('active'); }
 function setStatus(msg){ document.getElementById("status").innerText = msg; }
+function ensureIds(){ leads.forEach(l => { if(!l.id) l.id = Math.random().toString(36).slice(2) + Date.now().toString(36); ensureAttemptFields(l); }); }
 
 function calcRevenue(){
   let loan = +document.getElementById("loan").value || 0;
@@ -195,20 +211,227 @@ function autoCalcRevenue(){
   setStatus("Revenue auto-calculated");
 }
 
-function probability(l){
-  let p = 10;
-  if(l.status === "Engaged") p += 20;
-  if(l.status === "Active") p += 40;
-  if(l.response === "Interested") p += 20;
-  if(l.day <= 2) p += 10;
-  if(l.day > 7 && l.response === "No Response") p -= 30;
-  if(l.stage === "Under Contract") p += 10;
-  if(l.stage === "Processing") p += 15;
-  if(l.stage === "Clear to Close") p += 25;
-  if(l.stage === "Closed") p = 100;
-  return Math.max(0, Math.min(100, p));
+function stageWeight(stage){
+  const map = {
+    "New Lead": 0.10,
+    "Contacted": 0.25,
+    "Pre-Approved": 0.50,
+    "Application": 0.70,
+    "Under Contract": 0.85,
+    "Processing": 0.92,
+    "Clear to Close": 0.98,
+    "Closed": 1.00
+  };
+  return map[stage] ?? 0.10;
 }
-function revenuePriority(l){ return Math.round((l.revenue || 0) * (probability(l) / 100)); }
+function sourceWeight(source){
+  const map = {
+    "Leverage RX": 0.90,
+    "White Coat": 0.95,
+    "Digital Marketing - DSCR": 1.05,
+    "Private Mortgage Leads - DSCR": 1.10
+  };
+  return map[source] ?? 1.00;
+}
+function engagementWeight(lead){
+  if(lead.stage === "Closed") return 1.25;
+  if(["Application","Under Contract","Processing","Clear to Close"].includes(lead.stage)) return 1.25;
+  if(lead.status === "Engaged" || lead.response === "Interested") return 1.15;
+  if(lead.response === "No Response") return 0.70;
+  return 1.00;
+}
+function timeWeight(lead){
+  if(lead.status === "Active" && lead.day > 5) return 0.75;
+  if(lead.response === "No Response" && lead.day > 10) return 0.60;
+  if(lead.day <= 2) return 1.10;
+  if(lead.day <= 5) return 1.00;
+  if(lead.day <= 10) return 0.85;
+  return 0.75;
+}
+
+function priorityReasons(lead){
+  const reasons = [];
+  const revenue = Number(lead.revenue || 0);
+  const stage = lead.stage || "New Lead";
+  if(revenue >= 10000) reasons.push("high revenue");
+  else if(revenue >= 5000) reasons.push("solid revenue");
+  if(["Application","Under Contract","Processing","Clear to Close","Closed"].includes(stage)) reasons.push("advanced stage");
+  else if(["Pre-Approved","Contacted"].includes(stage)) reasons.push("good stage progress");
+  const sw = sourceWeight(lead.source || "");
+  if(sw >= 1.10) reasons.push("fast-converting source");
+  else if(sw >= 1.05) reasons.push("strong source");
+  const ew = engagementWeight(lead);
+  if(ew >= 1.25) reasons.push("high engagement");
+  else if(ew >= 1.15) reasons.push("engaged");
+  const tw = timeWeight(lead);
+  if(tw >= 1.10) reasons.push("fresh timing");
+  else if(tw <= 0.75) reasons.push("needs action now");
+  if(reasons.length === 0) reasons.push("best available mix of revenue and probability");
+  return reasons.slice(0,4);
+}
+function priorityExplanation(lead){
+  return "Top priority because: " + priorityReasons(lead).join(", ") + ".";
+}
+
+function recommendedActionLabel(lead){
+  const stage = lead.stage || "New Lead";
+  if(stage === "Clear to Close") return "Schedule closing";
+  if(stage === "Processing") return "Push conditions";
+  if(stage === "Under Contract") return "Review milestones";
+  if(stage === "Application") return "Collect docs";
+  if(stage === "Pre-Approved") return "Convert to contract";
+  if(stage === "Contacted" && lead.response === "Interested") return "Book consult";
+  if(lead.response === "No Response" && lead.day <= 2) return "Send first follow-up";
+  if(lead.response === "No Response" && lead.day <= 5) return "Call now";
+  if(lead.response === "No Response" && lead.day > 5) return "Close out or revive";
+  if(lead.status === "Engaged") return "Advance to application";
+  return "Make contact";
+}
+function recommendedActionDetail(lead){
+  const stage = lead.stage || "New Lead";
+  if(stage === "Clear to Close") return "Confirm final numbers and settlement timing.";
+  if(stage === "Processing") return "Clear outstanding conditions and keep the file moving.";
+  if(stage === "Under Contract") return "Lock the plan and manage deadlines closely.";
+  if(stage === "Application") return "Get the application and missing documents completed.";
+  if(stage === "Pre-Approved") return "Push toward offer strategy and active property selection.";
+  if(stage === "Contacted" && lead.response === "Interested") return "Get a call on the calendar while momentum is high.";
+  if(lead.response === "No Response" && lead.day <= 2) return "Use a light touch while the lead is still fresh.";
+  if(lead.response === "No Response" && lead.day <= 5) return "Try direct outreach before the lead cools off.";
+  if(lead.response === "No Response" && lead.day > 5) return "Either revive with a direct question or remove from focus.";
+  if(lead.status === "Engaged") return "Move from conversation into a real file or pre-approval.";
+  return "Start the conversation and qualify timing.";
+}
+function recommendedAction(lead){
+  return "Recommended action: " + recommendedActionLabel(lead) + " — " + recommendedActionDetail(lead);
+}
+
+function sourceScriptLabel(lead){
+  const source = lead.source || "";
+  const stage = lead.stage || "New Lead";
+  if(source === "Leverage RX" || source === "White Coat"){
+    if(stage === "New Lead") return "Physician opener";
+    if(stage === "Contacted") return "Physician consult";
+    if(["Pre-Approved","Application"].includes(stage)) return "Physician conversion";
+    return "Physician follow-up";
+  }
+  if(source === "Digital Marketing - DSCR" || source === "Private Mortgage Leads - DSCR"){
+    if(stage === "New Lead") return "DSCR opener";
+    if(stage === "Contacted") return "DSCR deal screen";
+    if(["Pre-Approved","Application","Under Contract"].includes(stage)) return "DSCR execution";
+    return "DSCR follow-up";
+  }
+  return "General follow-up";
+}
+function sourceSpecificScript(lead){
+  const source = lead.source || "";
+  const stage = lead.stage || "New Lead";
+  if(source === "Leverage RX" || source === "White Coat"){
+    if(stage === "New Lead") return "Quick question — are you planning to buy in the next 60–90 days or just exploring options right now?";
+    if(stage === "Contacted") return "Happy to walk you through physician versus conventional so you can see what actually makes the most financial sense.";
+    if(stage === "Pre-Approved") return "Now that you’re pre-approved, the next move is making sure we position you strongly when the right property comes up.";
+    if(stage === "Application") return "If you send over the remaining items, I can keep this moving and tighten up your options.";
+    if(stage === "Under Contract") return "Now that you’re under contract, I’ll help make sure the financing side stays clean and predictable.";
+    return "Just checking in to keep this moving — let me know if you want me to walk through the next best option.";
+  }
+  if(source === "Digital Marketing - DSCR" || source === "Private Mortgage Leads - DSCR"){
+    if(stage === "New Lead") return "Quick question — are you focused more on cash flow or appreciation on this deal?";
+    if(stage === "Contacted") return "I can structure this a couple ways depending on your return target — want me to run both options?";
+    if(stage === "Pre-Approved") return "You’re in a good spot — now it’s about matching the structure to the deal and your return target.";
+    if(stage === "Application") return "If you send over the remaining items, I can help keep this deal moving without losing momentum.";
+    if(stage === "Under Contract") return "Now that this one is under contract, let’s stay tight on timeline and execution so you protect the return.";
+    return "Still looking at this deal, or should I circle back later?";
+  }
+  return "Happy to help you think through the next step whenever you’re ready.";
+}
+function sourceSpecificScriptBox(lead){
+  return sourceScriptLabel(lead) + ": " + sourceSpecificScript(lead);
+}
+
+function ensureAttemptFields(lead){
+  if(typeof lead.callAttempts !== "number") lead.callAttempts = 0;
+  if(typeof lead.textAttempts !== "number") lead.textAttempts = 0;
+  if(typeof lead.emailAttempts !== "number") lead.emailAttempts = 0;
+  if(typeof lead.totalAttempts !== "number") lead.totalAttempts = lead.callAttempts + lead.textAttempts + lead.emailAttempts;
+  if(typeof lead.lastContactAt !== "string") lead.lastContactAt = "";
+  if(typeof lead.nextFollowUpAt !== "string") lead.nextFollowUpAt = "";
+}
+function attemptSummary(lead){
+  ensureAttemptFields(lead);
+  return "Contact attempts: " + lead.totalAttempts + " total — Calls " + lead.callAttempts + ", Texts " + lead.textAttempts + ", Emails " + lead.emailAttempts + ".";
+}
+
+function formatDateDisplay(iso){
+  if(!iso) return "—";
+  const d = new Date(iso);
+  if(isNaN(d.getTime())) return "—";
+  return d.toLocaleDateString();
+}
+function computeNextFollowUpDate(lead){
+  const base = lead.lastContactAt ? new Date(lead.lastContactAt) : new Date();
+  const d = new Date(base.getTime());
+  const stage = lead.stage || "New Lead";
+  const source = lead.source || "";
+  let days = 3;
+  if(["Digital Marketing - DSCR","Private Mortgage Leads - DSCR"].includes(source)) days = 1;
+  if(["Application","Under Contract","Processing","Clear to Close"].includes(stage)) days = 1;
+  else if(stage === "Pre-Approved") days = 2;
+  else if(stage === "Contacted") days = 2;
+  else if(lead.response === "No Response" && lead.totalAttempts >= 4) days = 5;
+  d.setDate(d.getDate() + days);
+  return d.toISOString();
+}
+function followUpSummary(lead){
+  const last = formatDateDisplay(lead.lastContactAt || "");
+  const next = formatDateDisplay(lead.nextFollowUpAt || "");
+  return "Last contact: " + last + " • Next follow-up due: " + next + ".";
+}
+function logAttemptByFilteredIndex(index, type){
+  const data = filteredLeads();
+  const lead = data[index];
+  if(!lead) return;
+  const actual = leads.findIndex(l => l.id === lead.id);
+  if(actual === -1) return;
+  ensureAttemptFields(leads[actual]);
+  if(type === "call") leads[actual].callAttempts += 1;
+  if(type === "text") leads[actual].textAttempts += 1;
+  if(type === "email") leads[actual].emailAttempts += 1;
+  leads[actual].totalAttempts = leads[actual].callAttempts + leads[actual].textAttempts + leads[actual].emailAttempts;
+  leads[actual].lastAttemptType = type;
+  leads[actual].lastAttemptAt = new Date().toISOString();
+  leads[actual].lastContactAt = leads[actual].lastAttemptAt;
+  leads[actual].nextFollowUpAt = computeNextFollowUpDate(leads[actual]);
+  save(); renderAll(); setStatus("Contact attempt logged");
+}
+function logAttemptById(leadId, type){
+  const actual = leads.findIndex(l => l.id === leadId);
+  if(actual === -1) return;
+  ensureAttemptFields(leads[actual]);
+  if(type === "call") leads[actual].callAttempts += 1;
+  if(type === "text") leads[actual].textAttempts += 1;
+  if(type === "email") leads[actual].emailAttempts += 1;
+  leads[actual].totalAttempts = leads[actual].callAttempts + leads[actual].textAttempts + leads[actual].emailAttempts;
+  leads[actual].lastAttemptType = type;
+  leads[actual].lastAttemptAt = new Date().toISOString();
+  leads[actual].lastContactAt = leads[actual].lastAttemptAt;
+  leads[actual].nextFollowUpAt = computeNextFollowUpDate(leads[actual]);
+  save(); renderAll(); setStatus("Contact attempt logged");
+}
+function scoreLead(lead){
+  const revenue = Number(lead.revenue || 0);
+  return Math.round(
+    revenue *
+    stageWeight(lead.stage || "New Lead") *
+    sourceWeight(lead.source || "") *
+    engagementWeight(lead) *
+    timeWeight(lead)
+  );
+}
+function probability(lead){
+  const rev = Number(lead.revenue || 0);
+  if(rev <= 0) return 0;
+  const pct = Math.round((scoreLead(lead) / rev) * 100);
+  return Math.max(0, Math.min(100, pct));
+}
 function healthClass(p){ if(p >= 70) return "green"; if(p >= 40) return "yellow"; return "red"; }
 function nextStep(l){
   if(l.stage === "Clear to Close") return "Schedule Closing";
@@ -230,6 +453,7 @@ function script(l){
 
 function addLead(){
   let l = {
+    id: Math.random().toString(36).slice(2) + Date.now().toString(36),
     name: document.getElementById("name").value || "Unnamed Lead",
     loan: +document.getElementById("loan").value || 0,
     source: document.getElementById("source").value,
@@ -238,7 +462,15 @@ function addLead(){
     day: 1,
     status: "New",
     stage: "New Lead",
-    response: "No Response"
+    response: "No Response",
+    callAttempts: 0,
+    textAttempts: 0,
+    emailAttempts: 0,
+    totalAttempts: 0,
+    lastAttemptType: "",
+    lastAttemptAt: "",
+    lastContactAt: "",
+    nextFollowUpAt: ""
   };
   leads.push(l);
   save(); renderAll();
@@ -254,10 +486,9 @@ function runAutomation(){
   setStatus("Automation ran successfully");
 }
 function dailyMode(){
-  let top = [...leads].sort((a,b)=>revenuePriority(b)-revenuePriority(a)).slice(0,5);
+  let top = [...leads].sort((a,b)=>scoreLead(b)-scoreLead(a)).slice(0,5);
   setStatus(top.length ? "Daily focus: " + top.map(l=>l.name).join(", ") : "No leads to review");
 }
-
 function filteredLeads(){
   const q = (document.getElementById("search").value || "").toLowerCase();
   const status = document.getElementById("statusFilter").value;
@@ -269,7 +500,7 @@ function filteredLeads(){
     const stageMatch = stage === "All" || l.stage === stage;
     const sourceMatch = source === "All" || l.source === source;
     return searchMatch && statusMatch && stageMatch && sourceMatch;
-  }).sort((a,b)=>revenuePriority(b)-revenuePriority(a));
+  }).sort((a,b)=>scoreLead(b)-scoreLead(a));
 }
 
 function stageStatusFromStage(stage){
@@ -282,22 +513,19 @@ function moveStageByFilteredIndex(index, delta){
   const data = filteredLeads();
   const lead = data[index];
   if(!lead) return;
-  const actual = leads.indexOf(lead);
+  const actual = leads.findIndex(l => l.id === lead.id);
   const current = STAGES.indexOf(leads[actual].stage || "New Lead");
   const next = Math.max(0, Math.min(STAGES.length - 1, current + delta));
   leads[actual].stage = STAGES[next];
   leads[actual].status = stageStatusFromStage(leads[actual].stage);
   save(); renderAll(); setStatus("Deal stage moved");
 }
-function setStageByBoardIndex(stage, leadId){
+function setStageByBoardId(stage, leadId){
   const actual = leads.findIndex(l => l.id === leadId);
   if(actual === -1) return;
   leads[actual].stage = stage;
   leads[actual].status = stageStatusFromStage(stage);
   save(); renderAll(); setStatus("Deal stage updated");
-}
-function ensureIds(){
-  leads.forEach(l => { if(!l.id) l.id = Math.random().toString(36).slice(2) + Date.now().toString(36); });
 }
 
 function copyScript(index){
@@ -311,7 +539,7 @@ function markSpoke(index){
   const data = filteredLeads();
   const lead = data[index];
   if(!lead) return;
-  const actual = leads.indexOf(lead);
+  const actual = leads.findIndex(l => l.id === lead.id);
   leads[actual].status = "Engaged";
   leads[actual].stage = "Contacted";
   leads[actual].response = "Interested";
@@ -321,25 +549,50 @@ function markApplied(index){
   const data = filteredLeads();
   const lead = data[index];
   if(!lead) return;
-  const actual = leads.indexOf(lead);
+  const actual = leads.findIndex(l => l.id === lead.id);
   leads[actual].status = "Active";
   leads[actual].stage = "Application";
+  leads[actual].response = "Interested";
   save(); renderAll(); setStatus("Lead marked applied");
 }
 function markClosed(index){
   const data = filteredLeads();
   const lead = data[index];
   if(!lead) return;
-  const actual = leads.indexOf(lead);
+  const actual = leads.findIndex(l => l.id === lead.id);
   leads[actual].status = "Closed";
   leads[actual].stage = "Closed";
   save(); renderAll(); setStatus("Lead marked closed");
 }
 
+
+function renderFollowUpDueToday(){
+  const container = document.getElementById("followUpDueToday");
+  const now = new Date();
+  const due = leads
+    .filter(l => l.nextFollowUpAt && new Date(l.nextFollowUpAt) <= now)
+    .sort((a,b) => scoreLead(b) - scoreLead(a))
+    .slice(0,8);
+  if(!due.length){
+    container.innerHTML = "No follow-ups due right now.";
+    return;
+  }
+  container.innerHTML = due.map(l => `
+    <div class="lead-card ${sourceClass(l.source)}">
+      <strong>${l.name}</strong><br>
+      <span class="pill">${l.source}</span>
+      <span class="pill">${l.stage}</span>
+      <span class="pill">Score $${scoreLead(l)}</span>
+      <div class="due-box">${followUpSummary(l)}</div>
+      <div class="action-box">${recommendedAction(l)}</div>
+      <div class="script-box">${sourceSpecificScriptBox(l)}</div>
+    </div>
+  `).join("");
+}
 function renderMetrics(){
   const pipeline = leads.reduce((s,l)=>s+(l.revenue||0),0);
-  const weighted = leads.reduce((s,l)=>s+revenuePriority(l),0);
-  const top = [...leads].sort((a,b)=>revenuePriority(b)-revenuePriority(a)).slice(0,5);
+  const weighted = leads.reduce((s,l)=>s+scoreLead(l),0);
+  const top = [...leads].sort((a,b)=>scoreLead(b)-scoreLead(a)).slice(0,5);
   document.getElementById("pipeline").innerText = Math.round(pipeline);
   document.getElementById("weighted").innerText = Math.round(weighted);
   document.getElementById("leadCount").innerText = leads.length;
@@ -348,7 +601,7 @@ function renderMetrics(){
   document.getElementById("closingDeals").innerText = leads.filter(l => ["Clear to Close","Closed"].includes(l.stage)).length;
 }
 function renderTodayDeals(){
-  const top = [...leads].sort((a,b)=>revenuePriority(b)-revenuePriority(a)).slice(0,5);
+  const top = [...leads].sort((a,b)=>scoreLead(b)-scoreLead(a)).slice(0,5);
   const container = document.getElementById("todayDeals");
   if(!top.length){ container.innerHTML = "No leads yet."; return; }
   container.innerHTML = top.map(l => `
@@ -356,13 +609,15 @@ function renderTodayDeals(){
       <strong>${l.name}</strong><br>
       <span class="pill">${l.source}</span>
       <span class="pill">${l.stage}</span>
-      <span class="pill">Priority $${revenuePriority(l)}</span>
-      <div style="margin-top:8px">${script(l)}</div>
+      <span class="pill">Score $${scoreLead(l)}</span>
+      <span class="pill">Prob ${probability(l)}%</span>
+      <div style="margin-top:8px">${script(l)}</div><div class="priority-box">${priorityExplanation(l)}</div><div class="action-box">${recommendedAction(l)}</div><div class="script-box">${sourceSpecificScriptBox(l)}</div><div class="attempt-box">${attemptSummary(l)}</div><div class="followup-box">${followUpSummary(l)}</div><div class="action-box">${recommendedAction(l)}</div><div class="script-box">${sourceSpecificScriptBox(l)}</div><div class="attempt-box">${attemptSummary(l)}</div><div class="followup-box">${followUpSummary(l)}</div>
     </div>
   `).join("");
 }
 function renderAlerts(){
-  const alerts = leads.filter(l => (l.response === "No Response" && l.day > 3) || (l.status === "Active" && l.day > 5)).sort((a,b)=>revenuePriority(b)-revenuePriority(a));
+  const now = new Date();
+  const alerts = leads.filter(l => ((l.response === "No Response" && l.day > 3) || (l.status === "Active" && l.day > 5) || (l.nextFollowUpAt && new Date(l.nextFollowUpAt) <= now))).sort((a,b)=>scoreLead(b)-scoreLead(a));
   const container = document.getElementById("hotAlerts");
   if(!alerts.length){ container.innerHTML = "No alerts right now."; return; }
   container.innerHTML = alerts.slice(0,5).map(l => `
@@ -370,7 +625,8 @@ function renderAlerts(){
       <strong>${l.name}</strong><br>
       <span class="pill">${l.source}</span>
       <span class="pill">${l.stage}</span>
-      <div style="margin-top:6px">${l.status === "Active" ? "Stalled active file" : "No response follow-up needed"}</div>
+      <span class="pill">Score $${scoreLead(l)}</span>
+      <div style="margin-top:6px">${(l.nextFollowUpAt && new Date(l.nextFollowUpAt) <= new Date()) ? "Follow-up due now" : (l.status === "Active" ? "Stalled active file" : "No response follow-up needed")}</div>
     </div>
   `).join("");
 }
@@ -389,12 +645,12 @@ function renderLeadList(){
           <span class="pill">${l.stage}</span>
           <span class="pill">Day ${l.day}</span>
         </div>
-        <div><span class="pill">Priority $${revenuePriority(l)}</span></div>
+        <div><span class="pill">Score $${scoreLead(l)}</span></div>
       </div>
       <div style="margin-top:8px">Loan: $${l.loan || 0} | Revenue: $${l.revenue || 0}</div>
       <div style="margin-top:6px">Probability: ${p}% | Next: ${nextStep(l)}</div>
       <div class="bar"><div class="fill ${healthClass(p)}" style="width:${p}%"></div></div>
-      <div style="margin-top:8px"><b>Script:</b> ${script(l)}</div>
+      <div style="margin-top:8px"><b>Script:</b> ${script(l)}</div><div class="priority-box">${priorityExplanation(l)}</div><div class="action-box">${recommendedAction(l)}</div><div class="script-box">${sourceSpecificScriptBox(l)}</div><div class="attempt-box">${attemptSummary(l)}</div><div class="followup-box">${followUpSummary(l)}</div>
       <div style="margin-top:10px">
         <button class="copy small-btn" onclick="copyScript(${i})">Copy</button>
         <button class="small-btn" onclick="markSpoke(${i})">Spoke</button>
@@ -403,13 +659,21 @@ function renderLeadList(){
         <button class="small-btn muted-btn" onclick="moveStageByFilteredIndex(${i}, -1)">← Back</button>
         <button class="small-btn" onclick="moveStageByFilteredIndex(${i}, 1)">Forward →</button>
       </div>
+      <div class="attempt-row">
+        <button class="small-btn" onclick="logAttemptByFilteredIndex(${i}, 'call')">Log Call</button>
+        <button class="small-btn" onclick="logAttemptByFilteredIndex(${i}, 'text')">Log Text</button>
+        <button class="small-btn" onclick="logAttemptByFilteredIndex(${i}, 'email')">Log Email</button>
+      </div>
+      <div class="small" style="margin-top:8px">
+        Stage ${stageWeight(l.stage).toFixed(2)} × Source ${sourceWeight(l.source).toFixed(2)} × Engagement ${engagementWeight(l).toFixed(2)} × Time ${timeWeight(l).toFixed(2)}
+      </div>
     </div>`;
   });
 }
 function renderKanban(){
   const board = document.getElementById("kanbanBoard");
   board.innerHTML = STAGES.map(stage => {
-    const items = leads.filter(l => (l.stage || "New Lead") === stage).sort((a,b)=>revenuePriority(b)-revenuePriority(a));
+    const items = leads.filter(l => (l.stage || "New Lead") === stage).sort((a,b)=>scoreLead(b)-scoreLead(a));
     return `<div class="column">
       <div class="column-header">
         <div class="column-title">${stage}</div>
@@ -419,13 +683,18 @@ function renderKanban(){
         <div class="lead-card ${sourceClass(l.source)}">
           <h4>${l.name}</h4>
           <span class="pill">${l.source}</span>
-          <span class="pill">Priority $${revenuePriority(l)}</span>
+          <span class="pill">Score $${scoreLead(l)}</span>
           <div style="margin-top:6px">Loan: $${l.loan || 0} | Revenue: $${l.revenue || 0}</div>
-          <div style="margin-top:6px">Day ${l.day} • ${nextStep(l)}</div>
+          <div style="margin-top:6px">Day ${l.day} • ${nextStep(l)}</div><div class="priority-box">${priorityExplanation(l)}</div>
           <div class="bar"><div class="fill ${healthClass(probability(l))}" style="width:${probability(l)}%"></div></div>
+          <div class="attempt-row">
+            <button class="small-btn" onclick="logAttemptById('${l.id}', 'call')">Log Call</button>
+            <button class="small-btn" onclick="logAttemptById('${l.id}', 'text')">Log Text</button>
+            <button class="small-btn" onclick="logAttemptById('${l.id}', 'email')">Log Email</button>
+          </div>
           <div class="stage-chip">
-            ${STAGES.indexOf(stage) > 0 ? `<button class="small-btn muted-btn" onclick="setStageByBoardIndex('${STAGES[STAGES.indexOf(stage)-1]}','${l.id}')">← Back</button>` : ""}
-            ${STAGES.indexOf(stage) < STAGES.length - 1 ? `<button class="small-btn" onclick="setStageByBoardIndex('${STAGES[STAGES.indexOf(stage)+1]}','${l.id}')">Next →</button>` : ""}
+            ${STAGES.indexOf(stage) > 0 ? `<button class="small-btn muted-btn" onclick="setStageByBoardId('${STAGES[STAGES.indexOf(stage)-1]}','${l.id}')">← Back</button>` : ""}
+            ${STAGES.indexOf(stage) < STAGES.length - 1 ? `<button class="small-btn" onclick="setStageByBoardId('${STAGES[STAGES.indexOf(stage)+1]}','${l.id}')">Next →</button>` : ""}
           </div>
         </div>
       `).join("")}
@@ -436,20 +705,20 @@ function renderKanban(){
 function exportBackup(){ document.getElementById("results").innerText = "Backup exported (simulated)"; }
 function runSelfCheck(){ document.getElementById("results").innerText = "System check passed"; }
 
+document.getElementById("search").addEventListener("input", renderAll);
+document.getElementById("statusFilter").addEventListener("change", renderAll);
+document.getElementById("stageFilter").addEventListener("change", renderAll);
+document.getElementById("sourceFilter").addEventListener("change", renderAll);
+
 function renderAll(){
   ensureIds();
+  renderFollowUpDueToday();
   renderMetrics();
   renderTodayDeals();
   renderAlerts();
   renderLeadList();
   renderKanban();
 }
-
-document.getElementById("search").addEventListener("input", renderAll);
-document.getElementById("statusFilter").addEventListener("change", renderAll);
-document.getElementById("stageFilter").addEventListener("change", renderAll);
-document.getElementById("sourceFilter").addEventListener("change", renderAll);
-
 renderAll();
 dailyMode();
 </script>
