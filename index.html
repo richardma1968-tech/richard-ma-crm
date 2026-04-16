@@ -64,11 +64,12 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
 <header>
   <div class="wrap" style="padding:0 16px">
     <h1>Richard Ma CRM</h1>
-    <div style="font-size:12px;margin-top:4px;">Version: V4.0 • Updated: 2026-04-15 03:00 PM</div>
+    <div id="versionBadge" style="font-size:12px;margin-top:4px;">Version loading...</div>
   </div>
 </header>
 
 <div class="wrap">
+  <div id="deployStatusBox" class="section" style="padding:10px 16px;margin-bottom:12px;font-size:13px;color:#1d4ed8;background:#eff6ff;border-color:#bfdbfe;">Status loading...</div>
   <div class="nav">
     <button onclick="showPage('dashboard')">Main</button>
     <button onclick="showPage('leverage')">Leverage RX</button>
@@ -150,6 +151,37 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
 </div>
 
 <script>
+
+const RELEASE_NAME = "Spring CRM";
+const BUILD_STORAGE_KEY = "crm_build_counter";
+const LAST_BUILD_STORAGE_KEY = "crm_last_build_signature";
+
+function getFormattedNow(){
+  const now = new Date();
+  return now.toLocaleString([], {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+function getBuildNumber(){
+  let build = Number(localStorage.getItem(BUILD_STORAGE_KEY) || "0");
+  const currentSignature = window.location.pathname + "|" + document.title;
+  const lastSignature = localStorage.getItem(LAST_BUILD_STORAGE_KEY) || "";
+  if(lastSignature !== currentSignature){
+    build += 1;
+    localStorage.setItem(BUILD_STORAGE_KEY, String(build));
+    localStorage.setItem(LAST_BUILD_STORAGE_KEY, currentSignature);
+  }
+  return "0." + build;
+}
+
+const BUILD_NUMBER = getBuildNumber();
+const APP_UPDATED_AT = getFormattedNow();
+
 const STAGES = ["New Lead","Contacted","Pre-Approved","Application","Under Contract","Processing","Clear to Close","Closed"];
 const SOURCE_PAGE_CONFIG = {
   leverage: "Leverage RX",
@@ -158,6 +190,14 @@ const SOURCE_PAGE_CONFIG = {
   private: "Private Mortgage Leads - DSCR"
 };
 let leads = JSON.parse(localStorage.getItem("crm_v4_source_pages") || "[]");
+
+
+function renderVersionBadge(){
+  const badge = document.getElementById("versionBadge");
+  if(!badge) return;
+  const mode = window.location.protocol === "file:" ? "Local" : "Hosted";
+  badge.textContent = "Release: " + RELEASE_NAME + " • Build: " + BUILD_NUMBER + " • Updated: " + APP_UPDATED_AT + " • Mode: " + mode;
+}
 
 function save(){ localStorage.setItem("crm_v4_source_pages", JSON.stringify(leads)); }
 function showPage(p){ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById(p).classList.add('active'); }
@@ -178,6 +218,19 @@ function sourceClass(source){
   const key = (source || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   return "source-" + key;
 }
+
+function renderDeploymentStatus(){
+  const box = document.getElementById("deployStatusBox");
+  if(!box) return;
+  const protocol = window.location.protocol || "";
+  const host = window.location.hostname || "";
+  let mode = "Local Preview";
+  if(protocol === "file:") mode = "Local Preview";
+  else if(host.includes("vercel.app")) mode = "Live Deployment";
+  else if(host) mode = "Hosted Preview";
+  box.textContent = mode + " • " + RELEASE_NAME + " • Build " + BUILD_NUMBER + " • Updated " + APP_UPDATED_AT;
+}
+
 function calcRevenue(){
   let loan = +document.getElementById("loan").value || 0;
   return Math.round(loan * 0.01);
@@ -540,6 +593,8 @@ document.getElementById("importBackupFile").addEventListener("change", function(
 
 function renderAll(){
   ensureIds();
+  renderVersionBadge();
+  renderDeploymentStatus();
   renderMetrics();
   renderTodayDeals();
   renderFollowUpDueToday();
