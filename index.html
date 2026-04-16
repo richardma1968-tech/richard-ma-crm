@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Richard Ma CRM – Kanban Scoring Model</title>
+<title>Richard Ma CRM – Source Pages</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 :root{
@@ -13,10 +13,10 @@
 *{box-sizing:border-box}
 body{font-family:Arial,Helvetica,sans-serif;margin:0;background:var(--bg);color:var(--text)}
 header{background:linear-gradient(90deg,var(--primary-dark),var(--primary));color:#fff;padding:18px 22px;box-shadow:var(--shadow)}
-.wrap{max-width:1400px;margin:auto;padding:16px}
+.wrap{max-width:1450px;margin:auto;padding:16px}
 h1,h2,h3{margin:0 0 10px 0}
-.nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.nav button,.actions button,.lead-card button,.stage-chip button{
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.nav button,.actions button,.lead-card button{
   padding:10px 12px;border:none;border-radius:10px;cursor:pointer;font-weight:700;background:var(--primary);color:#fff
 }
 .small-btn{padding:6px 9px;font-size:12px}
@@ -38,42 +38,24 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
 .bar{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:8px}
 .fill{height:8px}
 .green{background:#22c55e}.yellow{background:#f59e0b}.red{background:#ef4444}
-.kanban{display:grid;grid-template-columns:repeat(8,minmax(240px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px}
-.column{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:12px;min-height:420px}
-.column-header{position:sticky;top:0;background:var(--surface);padding-bottom:8px;margin-bottom:8px;border-bottom:1px solid var(--border)}
-.column-title{font-size:15px;font-weight:800}
-.column-count{font-size:12px;color:var(--muted)}
 .lead-card{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}
 .lead-card h4{margin:0 0 6px 0;font-size:15px}
-.priority-box{margin-top:8px;padding:10px;border-radius:10px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:13px}
-.action-box{margin-top:8px;padding:10px;border-radius:10px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:13px}
-.script-box{margin-top:8px;padding:10px;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;font-size:13px}
-.attempt-box{margin-top:8px;padding:10px;border-radius:10px;background:#faf5ff;border:1px solid #e9d5ff;color:#6b21a8;font-size:13px}
-.attempt-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.followup-box{margin-top:8px;padding:10px;border-radius:10px;background:#ecfeff;border:1px solid #a5f3fc;color:#155e75;font-size:13px}
-.backup-reminder{margin-top:12px;padding:12px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:13px}
-.deploy-status{margin-top:12px;padding:12px;border-radius:12px;font-size:13px;font-weight:700}
-.deploy-live{background:#ecfdf5;border:1px solid #86efac;color:#166534}
-.deploy-local{background:#fff7ed;border:1px solid #fdba74;color:#9a3412}
-.deploy-preview{background:#eff6ff;border:1px solid #93c5fd;color:#1d4ed8}
-.version-warning{margin-top:12px;padding:12px;border-radius:12px;font-size:13px;font-weight:700;display:none}
-.version-warning-mismatch{background:#fff1f2;border:1px solid #fda4af;color:#9f1239}
-.version-warning-match{background:#ecfdf5;border:1px solid #86efac;color:#166534}
-.fade-hide{transition:opacity .6s ease}
-.is-hidden{opacity:0}
-
-.due-box{margin-top:8px;padding:10px;border-radius:10px;background:#fff1f2;border:1px solid #fecdd3;color:#9f1239;font-size:13px}
-
-.stage-chip{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.top-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-.legend .pill{border-width:2px}
 .source-leverage-rx{border-left:6px solid #2563eb !important}
 .source-white-coat{border-left:6px solid #7c3aed !important}
 .source-digital-marketing-dscr{border-left:6px solid #16a34a !important}
 .source-private-mortgage-leads-dscr{border-left:6px solid #ea580c !important}
+.priority-box{margin-top:8px;padding:10px;border-radius:10px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:13px}
+.action-box{margin-top:8px;padding:10px;border-radius:10px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:13px}
+.script-box{margin-top:8px;padding:10px;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;font-size:13px}
+.attempt-box{margin-top:8px;padding:10px;border-radius:10px;background:#faf5ff;border:1px solid #e9d5ff;color:#6b21a8;font-size:13px}
+.followup-box{margin-top:8px;padding:10px;border-radius:10px;background:#ecfeff;border:1px solid #a5f3fc;color:#155e75;font-size:13px}
+.attempt-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.top-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.source-page-grid{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
 @media (max-width:1000px){
   .metric-grid{grid-template-columns:repeat(3,minmax(120px,1fr))}
+  .source-page-grid{grid-template-columns:repeat(2,minmax(120px,1fr))}
   .top-grid{grid-template-columns:1fr}
 }
 </style>
@@ -81,25 +63,19 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
 <body>
 <header>
   <div class="wrap" style="padding:0 16px">
-    <h1>Richard Ma CRM</h1><div id="versionBadge" style="font-size:12px;margin-top:4px;">Version: V3.1 • Updated: 2026-04-15 02:10 PM</div>
-    <div style="opacity:.9">Light Mode • Kanban Board • Advanced Scoring Model</div>
+    <h1>Richard Ma CRM</h1>
+    <div style="font-size:12px;margin-top:4px;">Version: V4.0 • Updated: 2026-04-15 03:00 PM</div>
   </div>
 </header>
 
 <div class="wrap">
-  <div id="deploymentStatus" class="deploy-status" style="display:none"></div>
-<div id="versionWarning" class="version-warning" style="display:none"></div>
-<div id="backupReminder" class="backup-reminder" style="display:none"></div>
-
-<div class="nav">
-    <button onclick="exportBackup()">Backup JSON</button>
-    <button onclick="document.getElementById('importBackupFile').click()">Restore Backup</button>
-    <input id="importBackupFile" type="file" accept=".json,application/json" style="display:none">
-
-    <button onclick="showPage('dashboard')">Dashboard</button>
-    <button onclick="showPage('kanban')">Kanban Board</button>
+  <div class="nav">
+    <button onclick="showPage('dashboard')">Main</button>
+    <button onclick="showPage('leverage')">Leverage RX</button>
+    <button onclick="showPage('whitecoat')">White Coat</button>
+    <button onclick="showPage('digital')">Digital Marketing - DSCR</button>
+    <button onclick="showPage('private')">Private Mortgage Leads - DSCR</button>
     <button onclick="showPage('tools')">Tools</button>
-    <button onclick="showPage('deploy')">Deploy Checklist</button>
   </div>
 
   <div id="dashboard" class="page active">
@@ -120,20 +96,18 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
         <button onclick="addLead()">Add Lead</button>
         <button onclick="runAutomation()">Run Automation</button>
         <button onclick="dailyMode()">Daily Mode</button>
+        <button onclick="exportBackup()">Backup JSON</button>
+        <button onclick="document.getElementById('importBackupFile').click()">Restore Backup</button>
+        <input id="importBackupFile" type="file" accept=".json,application/json" style="display:none">
       </div>
       <div id="status" class="status"></div>
-      <div class="small">Scoring now uses stage, source, engagement, and time decay. Top 5 deals are ranked by score, not just revenue.</div>
+      <div class="small">Main page = overall view. Source pages = lead tracking, ROI, and status by channel.</div>
       <div class="legend">
         <span class="pill source-leverage-rx">Leverage RX</span>
         <span class="pill source-white-coat">White Coat</span>
         <span class="pill source-digital-marketing-dscr">Digital Marketing - DSCR</span>
         <span class="pill source-private-mortgage-leads-dscr">Private Mortgage Leads - DSCR</span>
       </div>
-    </div>
-
-    <div class="section">
-      <h3>📅 Follow-Up Due Today</h3>
-      <div id="followUpDueToday" class="small">No follow-ups due right now.</div>
     </div>
 
     <div class="metric-grid">
@@ -151,163 +125,58 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
         <div id="todayDeals" class="small">No leads yet.</div>
       </div>
       <div class="section">
-        <h3>⚠ Hot Deal Alerts</h3>
-        <div id="hotAlerts" class="small">No alerts right now.</div>
+        <h3>📅 Follow-Up Due Today</h3>
+        <div id="followUpDueToday" class="small">No follow-ups due right now.</div>
       </div>
-    </div>
-
-    <div class="section">
-      <h3>Pipeline List</h3>
-      <div class="row">
-        <input id="search" placeholder="Search by name or source">
-        <select id="statusFilter">
-          <option value="All">All Statuses</option>
-          <option value="New">New</option>
-          <option value="Engaged">Engaged</option>
-          <option value="Active">Active</option>
-          <option value="Closed">Closed</option>
-        </select>
-        <select id="stageFilter">
-          <option value="All">All Stages</option>
-          <option>New Lead</option>
-          <option>Contacted</option>
-          <option>Pre-Approved</option>
-          <option>Application</option>
-          <option>Under Contract</option>
-          <option>Processing</option>
-          <option>Clear to Close</option>
-          <option>Closed</option>
-        </select>
-        <select id="sourceFilter">
-          <option value="All">All Sources</option>
-          <option>Leverage RX</option>
-          <option>White Coat</option>
-          <option>Digital Marketing - DSCR</option>
-          <option>Private Mortgage Leads - DSCR</option>
-        </select>
-      </div>
-      <div id="leadList"></div>
     </div>
   </div>
 
-  <div id="kanban" class="page">
-    <div class="section">
-      <h3>Kanban Stage Board</h3>
-      <div class="small">Move deals through stages using Back and Next. Score updates automatically.</div>
-    </div>
-    <div id="kanbanBoard" class="kanban"></div>
-  </div>
+  <div id="leverage" class="page"></div>
+  <div id="whitecoat" class="page"></div>
+  <div id="digital" class="page"></div>
+  <div id="private" class="page"></div>
 
   <div id="tools" class="page">
     <div class="section">
-      <h3>Backups & System Tools</h3>
-      <button onclick="exportBackup()">Export Backup</button>
+      <h3>Tools</h3>
+      <button onclick="exportBackup()">Backup JSON</button>
+      <button onclick="document.getElementById('importBackupFile').click()">Restore Backup</button>
       <button onclick="runSelfCheck()">Run Self Check</button>
       <h4 style="margin-top:16px">Results</h4>
       <div id="results" class="small"></div>
     </div>
-  
-  <div id="deploy" class="page">
-    <div class="section">
-      <h3>Deploy Checklist</h3>
-      <div class="small">Use this every time you move a new HTML upgrade to GitHub and Vercel.</div>
-      <div class="lead-card" style="margin-top:12px">
-        <strong>1. Test locally first</strong>
-        <div class="small" style="margin-top:6px">
-          Open the new HTML file locally and test:
-          <br>• Add Lead
-          <br>• Run Automation
-          <br>• Daily Mode
-          <br>• Kanban Board
-          <br>• Backup JSON
-        </div>
-      </div>
-      <div class="lead-card">
-        <strong>2. Confirm version details</strong>
-        <div class="small" style="margin-top:6px">
-          Check that the header shows the correct:
-          <br>• Version
-          <br>• Updated date
-          <br>• Updated time
-        </div>
-      </div>
-      <div class="lead-card">
-        <strong>3. Prepare the file</strong>
-        <div class="small" style="margin-top:6px">
-          Rename the final file to:
-          <br><b>index.html</b>
-          <br>Make sure it is a real .html file, not .txt
-        </div>
-      </div>
-      <div class="lead-card">
-        <strong>4. Update GitHub</strong>
-        <div class="small" style="margin-top:6px">
-          Open your repo → open index.html → click Edit → replace all code → Commit changes
-        </div>
-      </div>
-      <div class="lead-card">
-        <strong>5. Let Vercel deploy</strong>
-        <div class="small" style="margin-top:6px">
-          Open Vercel and wait for the new deployment to finish.
-        </div>
-      </div>
-      <div class="lead-card">
-        <strong>6. Verify live</strong>
-        <div class="small" style="margin-top:6px">
-          Open the live URL and hard refresh:
-          <br><b>Ctrl + Shift + R</b>
-          <br>Confirm:
-          <br>• Version matches
-          <br>• Updated time matches
-          <br>• Deployment status says Live
-          <br>• No version mismatch warning
-        </div>
-      </div>
-      <div class="lead-card">
-        <strong>7. Final live test</strong>
-        <div class="small" style="margin-top:6px">
-          Test:
-          <br>• Add Lead
-          <br>• Run Automation
-          <br>• Daily Mode
-          <br>• Follow-Up Due Today
-          <br>• Kanban stage movement
-        </div>
-      </div>
-      <div class="lead-card">
-        <strong>8. Safety backup</strong>
-        <div class="small" style="margin-top:6px">
-          Click <b>Backup JSON</b> after deployment and save it in your CRM Backups folder.
-        </div>
-      </div>
-      <div class="lead-card">
-        <strong>9. Working file rule</strong>
-        <div class="small" style="margin-top:6px">
-          Keep one master local file:
-          <br><b>CRM Master &gt; index.html</b>
-          <br>Archive older versions in:
-          <br><b>CRM Backups</b>
-        </div>
-      </div>
-    </div>
   </div>
-
-</div>
 </div>
 
 <script>
 const STAGES = ["New Lead","Contacted","Pre-Approved","Application","Under Contract","Processing","Clear to Close","Closed"];
-let leads = JSON.parse(localStorage.getItem("crm_kanban_scoring_model") || "[]");
+const SOURCE_PAGE_CONFIG = {
+  leverage: "Leverage RX",
+  whitecoat: "White Coat",
+  digital: "Digital Marketing - DSCR",
+  private: "Private Mortgage Leads - DSCR"
+};
+let leads = JSON.parse(localStorage.getItem("crm_v4_source_pages") || "[]");
 
+function save(){ localStorage.setItem("crm_v4_source_pages", JSON.stringify(leads)); }
+function showPage(p){ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById(p).classList.add('active'); }
+function setStatus(msg){ document.getElementById("status").innerText = msg; }
+function ensureIds(){ leads.forEach(l => { if(!l.id) l.id = Math.random().toString(36).slice(2) + Date.now().toString(36); ensureLeadFields(l); }); }
+function ensureLeadFields(lead){
+  if(typeof lead.callAttempts !== "number") lead.callAttempts = 0;
+  if(typeof lead.textAttempts !== "number") lead.textAttempts = 0;
+  if(typeof lead.emailAttempts !== "number") lead.emailAttempts = 0;
+  if(typeof lead.totalAttempts !== "number") lead.totalAttempts = lead.callAttempts + lead.textAttempts + lead.emailAttempts;
+  if(typeof lead.lastContactAt !== "string") lead.lastContactAt = "";
+  if(typeof lead.nextFollowUpAt !== "string") lead.nextFollowUpAt = "";
+  if(typeof lead.stage !== "string" || !lead.stage) lead.stage = "New Lead";
+  if(typeof lead.status !== "string" || !lead.status) lead.status = "New";
+  if(typeof lead.response !== "string" || !lead.response) lead.response = "No Response";
+}
 function sourceClass(source){
   const key = (source || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   return "source-" + key;
 }
-function save(){ localStorage.setItem("crm_kanban_scoring_model", JSON.stringify(leads)); }
-function showPage(p){ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById(p).classList.add('active'); }
-function setStatus(msg){ document.getElementById("status").innerText = msg; }
-function ensureIds(){ leads.forEach(l => { if(!l.id) l.id = Math.random().toString(36).slice(2) + Date.now().toString(36); ensureAttemptFields(l); }); }
-
 function calcRevenue(){
   let loan = +document.getElementById("loan").value || 0;
   return Math.round(loan * 0.01);
@@ -316,27 +185,12 @@ function autoCalcRevenue(){
   document.getElementById("revenue").value = calcRevenue();
   setStatus("Revenue auto-calculated");
 }
-
 function stageWeight(stage){
-  const map = {
-    "New Lead": 0.10,
-    "Contacted": 0.25,
-    "Pre-Approved": 0.50,
-    "Application": 0.70,
-    "Under Contract": 0.85,
-    "Processing": 0.92,
-    "Clear to Close": 0.98,
-    "Closed": 1.00
-  };
+  const map = {"New Lead":0.10,"Contacted":0.25,"Pre-Approved":0.50,"Application":0.70,"Under Contract":0.85,"Processing":0.92,"Clear to Close":0.98,"Closed":1.00};
   return map[stage] ?? 0.10;
 }
 function sourceWeight(source){
-  const map = {
-    "Leverage RX": 0.90,
-    "White Coat": 0.95,
-    "Digital Marketing - DSCR": 1.05,
-    "Private Mortgage Leads - DSCR": 1.10
-  };
+  const map = {"Leverage RX":0.90,"White Coat":0.95,"Digital Marketing - DSCR":1.05,"Private Mortgage Leads - DSCR":1.10};
   return map[source] ?? 1.00;
 }
 function engagementWeight(lead){
@@ -354,15 +208,40 @@ function timeWeight(lead){
   if(lead.day <= 10) return 0.85;
   return 0.75;
 }
-
+function scoreLead(lead){
+  return Math.round(Number(lead.revenue || 0) * stageWeight(lead.stage) * sourceWeight(lead.source) * engagementWeight(lead) * timeWeight(lead));
+}
+function probability(lead){
+  const rev = Number(lead.revenue || 0);
+  if(rev <= 0) return 0;
+  return Math.max(0, Math.min(100, Math.round((scoreLead(lead)/rev)*100)));
+}
+function healthClass(p){ if(p >= 70) return "green"; if(p >= 40) return "yellow"; return "red"; }
+function nextStep(l){
+  if(l.stage === "Clear to Close") return "Schedule Closing";
+  if(l.stage === "Processing") return "Push Conditions";
+  if(l.stage === "Under Contract") return "Review Milestones";
+  if(l.stage === "Application") return "Collect Docs";
+  if(l.stage === "Pre-Approved") return "Convert to Contract";
+  if(l.response === "Interested") return "Book Consult";
+  if(l.day > 5) return "Revive / Close Out";
+  return "Contact";
+}
+function script(l){
+  if(l.source === "Digital Marketing - DSCR" && l.day === 1) return "Are you focused more on cash flow or appreciation on this deal?";
+  if(l.source === "Private Mortgage Leads - DSCR" && l.day === 1) return "Are you trying to hit a specific return target on this property?";
+  if(l.day === 1) return "Are you planning to buy in the next 60–90 days or just exploring options right now?";
+  if(l.response === "Interested") return "Happy to walk you through the best structure if you want to compare options side by side.";
+  if(l.day > 5) return "Should I keep this open or circle back later?";
+  return "Quick check on timing.";
+}
 function priorityReasons(lead){
   const reasons = [];
   const revenue = Number(lead.revenue || 0);
-  const stage = lead.stage || "New Lead";
   if(revenue >= 10000) reasons.push("high revenue");
   else if(revenue >= 5000) reasons.push("solid revenue");
-  if(["Application","Under Contract","Processing","Clear to Close","Closed"].includes(stage)) reasons.push("advanced stage");
-  else if(["Pre-Approved","Contacted"].includes(stage)) reasons.push("good stage progress");
+  if(["Application","Under Contract","Processing","Clear to Close","Closed"].includes(lead.stage)) reasons.push("advanced stage");
+  else if(["Pre-Approved","Contacted"].includes(lead.stage)) reasons.push("good stage progress");
   const sw = sourceWeight(lead.source || "");
   if(sw >= 1.10) reasons.push("fast-converting source");
   else if(sw >= 1.05) reasons.push("strong source");
@@ -372,15 +251,12 @@ function priorityReasons(lead){
   const tw = timeWeight(lead);
   if(tw >= 1.10) reasons.push("fresh timing");
   else if(tw <= 0.75) reasons.push("needs action now");
-  if(reasons.length === 0) reasons.push("best available mix of revenue and probability");
+  if(!reasons.length) reasons.push("best available mix of revenue and probability");
   return reasons.slice(0,4);
 }
-function priorityExplanation(lead){
-  return "Top priority because: " + priorityReasons(lead).join(", ") + ".";
-}
-
+function priorityExplanation(lead){ return "Top priority because: " + priorityReasons(lead).join(", ") + "."; }
 function recommendedActionLabel(lead){
-  const stage = lead.stage || "New Lead";
+  const stage = lead.stage;
   if(stage === "Clear to Close") return "Schedule closing";
   if(stage === "Processing") return "Push conditions";
   if(stage === "Under Contract") return "Review milestones";
@@ -394,7 +270,7 @@ function recommendedActionLabel(lead){
   return "Make contact";
 }
 function recommendedActionDetail(lead){
-  const stage = lead.stage || "New Lead";
+  const stage = lead.stage;
   if(stage === "Clear to Close") return "Confirm final numbers and settlement timing.";
   if(stage === "Processing") return "Clear outstanding conditions and keep the file moving.";
   if(stage === "Under Contract") return "Lock the plan and manage deadlines closely.";
@@ -407,10 +283,7 @@ function recommendedActionDetail(lead){
   if(lead.status === "Engaged") return "Move from conversation into a real file or pre-approval.";
   return "Start the conversation and qualify timing.";
 }
-function recommendedAction(lead){
-  return "Recommended action: " + recommendedActionLabel(lead) + " — " + recommendedActionDetail(lead);
-}
-
+function recommendedAction(lead){ return "Recommended action: " + recommendedActionLabel(lead) + " — " + recommendedActionDetail(lead); }
 function sourceScriptLabel(lead){
   const source = lead.source || "";
   const stage = lead.stage || "New Lead";
@@ -449,23 +322,7 @@ function sourceSpecificScript(lead){
   }
   return "Happy to help you think through the next step whenever you’re ready.";
 }
-function sourceSpecificScriptBox(lead){
-  return sourceScriptLabel(lead) + ": " + sourceSpecificScript(lead);
-}
-
-function ensureAttemptFields(lead){
-  if(typeof lead.callAttempts !== "number") lead.callAttempts = 0;
-  if(typeof lead.textAttempts !== "number") lead.textAttempts = 0;
-  if(typeof lead.emailAttempts !== "number") lead.emailAttempts = 0;
-  if(typeof lead.totalAttempts !== "number") lead.totalAttempts = lead.callAttempts + lead.textAttempts + lead.emailAttempts;
-  if(typeof lead.lastContactAt !== "string") lead.lastContactAt = "";
-  if(typeof lead.nextFollowUpAt !== "string") lead.nextFollowUpAt = "";
-}
-function attemptSummary(lead){
-  ensureAttemptFields(lead);
-  return "Contact attempts: " + lead.totalAttempts + " total — Calls " + lead.callAttempts + ", Texts " + lead.textAttempts + ", Emails " + lead.emailAttempts + ".";
-}
-
+function sourceSpecificScriptBox(lead){ return sourceScriptLabel(lead) + ": " + sourceSpecificScript(lead); }
 function formatDateDisplay(iso){
   if(!iso) return "—";
   const d = new Date(iso);
@@ -475,88 +332,26 @@ function formatDateDisplay(iso){
 function computeNextFollowUpDate(lead){
   const base = lead.lastContactAt ? new Date(lead.lastContactAt) : new Date();
   const d = new Date(base.getTime());
-  const stage = lead.stage || "New Lead";
-  const source = lead.source || "";
   let days = 3;
-  if(["Digital Marketing - DSCR","Private Mortgage Leads - DSCR"].includes(source)) days = 1;
-  if(["Application","Under Contract","Processing","Clear to Close"].includes(stage)) days = 1;
-  else if(stage === "Pre-Approved") days = 2;
-  else if(stage === "Contacted") days = 2;
+  if(["Digital Marketing - DSCR","Private Mortgage Leads - DSCR"].includes(lead.source)) days = 1;
+  if(["Application","Under Contract","Processing","Clear to Close"].includes(lead.stage)) days = 1;
+  else if(lead.stage === "Pre-Approved" || lead.stage === "Contacted") days = 2;
   else if(lead.response === "No Response" && lead.totalAttempts >= 4) days = 5;
   d.setDate(d.getDate() + days);
   return d.toISOString();
 }
+function attemptSummary(lead){
+  return "Contact attempts: " + lead.totalAttempts + " total — Calls " + lead.callAttempts + ", Texts " + lead.textAttempts + ", Emails " + lead.emailAttempts + ".";
+}
 function followUpSummary(lead){
-  const last = formatDateDisplay(lead.lastContactAt || "");
-  const next = formatDateDisplay(lead.nextFollowUpAt || "");
-  return "Last contact: " + last + " • Next follow-up due: " + next + ".";
+  return "Last contact: " + formatDateDisplay(lead.lastContactAt || "") + " • Next follow-up due: " + formatDateDisplay(lead.nextFollowUpAt || "") + ".";
 }
-function logAttemptByFilteredIndex(index, type){
-  const data = filteredLeads();
-  const lead = data[index];
-  if(!lead) return;
-  const actual = leads.findIndex(l => l.id === lead.id);
-  if(actual === -1) return;
-  ensureAttemptFields(leads[actual]);
-  if(type === "call") leads[actual].callAttempts += 1;
-  if(type === "text") leads[actual].textAttempts += 1;
-  if(type === "email") leads[actual].emailAttempts += 1;
-  leads[actual].totalAttempts = leads[actual].callAttempts + leads[actual].textAttempts + leads[actual].emailAttempts;
-  leads[actual].lastAttemptType = type;
-  leads[actual].lastAttemptAt = new Date().toISOString();
-  leads[actual].lastContactAt = leads[actual].lastAttemptAt;
-  leads[actual].nextFollowUpAt = computeNextFollowUpDate(leads[actual]);
-  save(); renderAll(); setStatus("Contact attempt logged");
+function stageStatusFromStage(stage){
+  if(stage === "Closed") return "Closed";
+  if(["Pre-Approved","Application","Under Contract","Processing","Clear to Close"].includes(stage)) return "Active";
+  if(stage === "Contacted") return "Engaged";
+  return "New";
 }
-function logAttemptById(leadId, type){
-  const actual = leads.findIndex(l => l.id === leadId);
-  if(actual === -1) return;
-  ensureAttemptFields(leads[actual]);
-  if(type === "call") leads[actual].callAttempts += 1;
-  if(type === "text") leads[actual].textAttempts += 1;
-  if(type === "email") leads[actual].emailAttempts += 1;
-  leads[actual].totalAttempts = leads[actual].callAttempts + leads[actual].textAttempts + leads[actual].emailAttempts;
-  leads[actual].lastAttemptType = type;
-  leads[actual].lastAttemptAt = new Date().toISOString();
-  leads[actual].lastContactAt = leads[actual].lastAttemptAt;
-  leads[actual].nextFollowUpAt = computeNextFollowUpDate(leads[actual]);
-  save(); renderAll(); setStatus("Contact attempt logged");
-}
-function scoreLead(lead){
-  const revenue = Number(lead.revenue || 0);
-  return Math.round(
-    revenue *
-    stageWeight(lead.stage || "New Lead") *
-    sourceWeight(lead.source || "") *
-    engagementWeight(lead) *
-    timeWeight(lead)
-  );
-}
-function probability(lead){
-  const rev = Number(lead.revenue || 0);
-  if(rev <= 0) return 0;
-  const pct = Math.round((scoreLead(lead) / rev) * 100);
-  return Math.max(0, Math.min(100, pct));
-}
-function healthClass(p){ if(p >= 70) return "green"; if(p >= 40) return "yellow"; return "red"; }
-function nextStep(l){
-  if(l.stage === "Clear to Close") return "Schedule Closing";
-  if(l.stage === "Processing") return "Clear Conditions";
-  if(l.stage === "Under Contract") return "Lock / Review Milestones";
-  if(l.status === "Active") return "Move to Next Milestone";
-  if(l.response === "Interested") return "Book Call";
-  if(l.day > 5) return "Revive / Close Out";
-  return "Contact";
-}
-function script(l){
-  if(l.source === "Digital Marketing - DSCR" && l.day === 1) return "Are you focused more on cash flow or appreciation on this deal?";
-  if(l.source === "Private Mortgage Leads - DSCR" && l.day === 1) return "Are you trying to hit a specific return target on this property?";
-  if(l.day === 1) return "Are you planning to buy in the next 60–90 days or just exploring options?";
-  if(l.response === "Interested") return "Happy to walk you through the best structure if you want to compare options side by side.";
-  if(l.day > 5) return "Should I keep this open or circle back later?";
-  return "Quick check on timing.";
-}
-
 function addLead(){
   let l = {
     id: Math.random().toString(36).slice(2) + Date.now().toString(36),
@@ -569,14 +364,8 @@ function addLead(){
     status: "New",
     stage: "New Lead",
     response: "No Response",
-    callAttempts: 0,
-    textAttempts: 0,
-    emailAttempts: 0,
-    totalAttempts: 0,
-    lastAttemptType: "",
-    lastAttemptAt: "",
-    lastContactAt: "",
-    nextFollowUpAt: ""
+    callAttempts: 0, textAttempts: 0, emailAttempts: 0, totalAttempts: 0,
+    lastContactAt: "", nextFollowUpAt: ""
   };
   leads.push(l);
   save(); renderAll();
@@ -586,114 +375,81 @@ function addLead(){
   document.getElementById("revenue").value = "";
   document.getElementById("source").value = "Leverage RX";
 }
-function runAutomation(){
-  leads.forEach(l => l.day++);
-  save(); renderAll();
-  setStatus("Automation ran successfully");
-}
+function runAutomation(){ leads.forEach(l => l.day++); save(); renderAll(); setStatus("Automation ran successfully"); }
 function dailyMode(){
   let top = [...leads].sort((a,b)=>scoreLead(b)-scoreLead(a)).slice(0,5);
   setStatus(top.length ? "Daily focus: " + top.map(l=>l.name).join(", ") : "No leads to review");
 }
-function filteredLeads(){
-  const q = (document.getElementById("search").value || "").toLowerCase();
-  const status = document.getElementById("statusFilter").value;
-  const stage = document.getElementById("stageFilter").value;
-  const source = document.getElementById("sourceFilter").value;
-  return [...leads].filter(l=>{
-    const searchMatch = !q || (l.name||"").toLowerCase().includes(q) || (l.source||"").toLowerCase().includes(q);
-    const statusMatch = status === "All" || l.status === status;
-    const stageMatch = stage === "All" || l.stage === stage;
-    const sourceMatch = source === "All" || l.source === source;
-    return searchMatch && statusMatch && stageMatch && sourceMatch;
-  }).sort((a,b)=>scoreLead(b)-scoreLead(a));
+function logAttemptById(leadId, type){
+  const idx = leads.findIndex(l => l.id === leadId);
+  if(idx === -1) return;
+  if(type === "call") leads[idx].callAttempts += 1;
+  if(type === "text") leads[idx].textAttempts += 1;
+  if(type === "email") leads[idx].emailAttempts += 1;
+  leads[idx].totalAttempts = leads[idx].callAttempts + leads[idx].textAttempts + leads[idx].emailAttempts;
+  leads[idx].lastContactAt = new Date().toISOString();
+  leads[idx].nextFollowUpAt = computeNextFollowUpDate(leads[idx]);
+  save(); renderAll(); setStatus("Contact attempt logged");
 }
-
-function stageStatusFromStage(stage){
-  if(stage === "Closed") return "Closed";
-  if(["Pre-Approved","Application","Under Contract","Processing","Clear to Close"].includes(stage)) return "Active";
-  if(stage === "Contacted") return "Engaged";
-  return "New";
-}
-function moveStageByFilteredIndex(index, delta){
-  const data = filteredLeads();
-  const lead = data[index];
-  if(!lead) return;
-  const actual = leads.findIndex(l => l.id === lead.id);
-  const current = STAGES.indexOf(leads[actual].stage || "New Lead");
+function setStageById(leadId, delta){
+  const idx = leads.findIndex(l => l.id === leadId);
+  if(idx === -1) return;
+  const current = STAGES.indexOf(leads[idx].stage || "New Lead");
   const next = Math.max(0, Math.min(STAGES.length - 1, current + delta));
-  leads[actual].stage = STAGES[next];
-  leads[actual].status = stageStatusFromStage(leads[actual].stage);
+  leads[idx].stage = STAGES[next];
+  leads[idx].status = stageStatusFromStage(leads[idx].stage);
   save(); renderAll(); setStatus("Deal stage moved");
 }
-function setStageByBoardId(stage, leadId){
-  const actual = leads.findIndex(l => l.id === leadId);
-  if(actual === -1) return;
-  leads[actual].stage = stage;
-  leads[actual].status = stageStatusFromStage(stage);
-  save(); renderAll(); setStatus("Deal stage updated");
+function markStatusById(leadId, type){
+  const idx = leads.findIndex(l => l.id === leadId);
+  if(idx === -1) return;
+  if(type === "spoke"){ leads[idx].status = "Engaged"; leads[idx].stage = "Contacted"; leads[idx].response = "Interested"; }
+  if(type === "applied"){ leads[idx].status = "Active"; leads[idx].stage = "Application"; leads[idx].response = "Interested"; }
+  if(type === "closed"){ leads[idx].status = "Closed"; leads[idx].stage = "Closed"; }
+  save(); renderAll(); setStatus("Lead updated");
 }
-
-function copyScript(index){
-  const data = filteredLeads();
-  const lead = data[index];
-  if(!lead) return;
-  navigator.clipboard.writeText(script(lead));
-  setStatus("Script copied");
-}
-function markSpoke(index){
-  const data = filteredLeads();
-  const lead = data[index];
-  if(!lead) return;
-  const actual = leads.findIndex(l => l.id === lead.id);
-  leads[actual].status = "Engaged";
-  leads[actual].stage = "Contacted";
-  leads[actual].response = "Interested";
-  save(); renderAll(); setStatus("Lead marked spoke");
-}
-function markApplied(index){
-  const data = filteredLeads();
-  const lead = data[index];
-  if(!lead) return;
-  const actual = leads.findIndex(l => l.id === lead.id);
-  leads[actual].status = "Active";
-  leads[actual].stage = "Application";
-  leads[actual].response = "Interested";
-  save(); renderAll(); setStatus("Lead marked applied");
-}
-function markClosed(index){
-  const data = filteredLeads();
-  const lead = data[index];
-  if(!lead) return;
-  const actual = leads.findIndex(l => l.id === lead.id);
-  leads[actual].status = "Closed";
-  leads[actual].stage = "Closed";
-  save(); renderAll(); setStatus("Lead marked closed");
-}
-
-
-function renderFollowUpDueToday(){
-  const container = document.getElementById("followUpDueToday");
-  const now = new Date();
-  const due = leads
-    .filter(l => l.nextFollowUpAt && new Date(l.nextFollowUpAt) <= now)
-    .sort((a,b) => scoreLead(b) - scoreLead(a))
-    .slice(0,8);
-  if(!due.length){
-    container.innerHTML = "No follow-ups due right now.";
-    return;
-  }
-  container.innerHTML = due.map(l => `
+function renderLeadCard(l){
+  const p = probability(l);
+  return `
     <div class="lead-card ${sourceClass(l.source)}">
-      <strong>${l.name}</strong><br>
-      <span class="pill">${l.source}</span>
-      <span class="pill">${l.stage}</span>
-      <span class="pill">Score $${scoreLead(l)}</span>
-      <div class="due-box">${followUpSummary(l)}</div>
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <div>
+          <h4>${l.name}</h4>
+          <span class="pill">${l.source}</span>
+          <span class="pill">${l.status}</span>
+          <span class="pill">${l.stage}</span>
+          <span class="pill">Day ${l.day}</span>
+        </div>
+        <div><span class="pill">Score $${scoreLead(l)}</span></div>
+      </div>
+      <div style="margin-top:8px">Loan: $${l.loan || 0} | Revenue: $${l.revenue || 0}</div>
+      <div style="margin-top:6px">Probability: ${p}% | Next: ${nextStep(l)}</div>
+      <div class="bar"><div class="fill ${healthClass(p)}" style="width:${p}%"></div></div>
+      <div class="priority-box">${priorityExplanation(l)}</div>
       <div class="action-box">${recommendedAction(l)}</div>
       <div class="script-box">${sourceSpecificScriptBox(l)}</div>
+      <div class="attempt-box">${attemptSummary(l)}</div>
+      <div class="followup-box">${followUpSummary(l)}</div>
+      <div class="attempt-row">
+        <button class="small-btn" onclick="logAttemptById('${l.id}','call')">Log Call</button>
+        <button class="small-btn" onclick="logAttemptById('${l.id}','text')">Log Text</button>
+        <button class="small-btn" onclick="logAttemptById('${l.id}','email')">Log Email</button>
+      </div>
+      <div style="margin-top:10px">
+        <button class="copy small-btn" onclick="navigator.clipboard.writeText(scriptById('${l.id}'))">Copy</button>
+        <button class="small-btn" onclick="markStatusById('${l.id}','spoke')">Spoke</button>
+        <button class="small-btn" onclick="markStatusById('${l.id}','applied')">Applied</button>
+        <button class="small-btn" onclick="markStatusById('${l.id}','closed')">Closed</button>
+        <button class="small-btn muted-btn" onclick="setStageById('${l.id}',-1)">← Back</button>
+        <button class="small-btn" onclick="setStageById('${l.id}',1)">Forward →</button>
+      </div>
+      <div class="small" style="margin-top:8px">ROI View: Revenue $${l.revenue || 0} • Score $${scoreLead(l)} • Stage ${stageWeight(l.stage).toFixed(2)} • Source ${sourceWeight(l.source).toFixed(2)}</div>
     </div>
-  `).join("");
+  `;
+}
+function scriptById(id){
+  const lead = leads.find(l => l.id === id);
+  return lead ? script(lead) : "";
 }
 function renderMetrics(){
   const pipeline = leads.reduce((s,l)=>s+(l.revenue||0),0);
@@ -708,126 +464,48 @@ function renderMetrics(){
 }
 function renderTodayDeals(){
   const top = [...leads].sort((a,b)=>scoreLead(b)-scoreLead(a)).slice(0,5);
-  const container = document.getElementById("todayDeals");
-  if(!top.length){ container.innerHTML = "No leads yet."; return; }
-  container.innerHTML = top.map(l => `
-    <div class="lead-card ${sourceClass(l.source)}">
-      <strong>${l.name}</strong><br>
-      <span class="pill">${l.source}</span>
-      <span class="pill">${l.stage}</span>
-      <span class="pill">Score $${scoreLead(l)}</span>
-      <span class="pill">Prob ${probability(l)}%</span>
-      <div style="margin-top:8px">${script(l)}</div><div class="priority-box">${priorityExplanation(l)}</div><div class="action-box">${recommendedAction(l)}</div><div class="script-box">${sourceSpecificScriptBox(l)}</div><div class="attempt-box">${attemptSummary(l)}</div><div class="followup-box">${followUpSummary(l)}</div><div class="action-box">${recommendedAction(l)}</div><div class="script-box">${sourceSpecificScriptBox(l)}</div><div class="attempt-box">${attemptSummary(l)}</div><div class="followup-box">${followUpSummary(l)}</div>
-    </div>
-  `).join("");
+  document.getElementById("todayDeals").innerHTML = top.length ? top.map(renderLeadCard).join("") : "No leads yet.";
 }
-function renderAlerts(){
+function renderFollowUpDueToday(){
   const now = new Date();
-  const alerts = leads.filter(l => ((l.response === "No Response" && l.day > 3) || (l.status === "Active" && l.day > 5) || (l.nextFollowUpAt && new Date(l.nextFollowUpAt) <= now))).sort((a,b)=>scoreLead(b)-scoreLead(a));
-  const container = document.getElementById("hotAlerts");
-  if(!alerts.length){ container.innerHTML = "No alerts right now."; return; }
-  container.innerHTML = alerts.slice(0,5).map(l => `
-    <div class="lead-card ${sourceClass(l.source)}">
-      <strong>${l.name}</strong><br>
-      <span class="pill">${l.source}</span>
-      <span class="pill">${l.stage}</span>
-      <span class="pill">Score $${scoreLead(l)}</span>
-      <div style="margin-top:6px">${(l.nextFollowUpAt && new Date(l.nextFollowUpAt) <= new Date()) ? "Follow-up due now" : (l.status === "Active" ? "Stalled active file" : "No response follow-up needed")}</div>
+  const due = leads.filter(l => l.nextFollowUpAt && new Date(l.nextFollowUpAt) <= now).sort((a,b)=>scoreLead(b)-scoreLead(a)).slice(0,6);
+  document.getElementById("followUpDueToday").innerHTML = due.length ? due.map(renderLeadCard).join("") : "No follow-ups due right now.";
+}
+function renderSourcePage(pageId, sourceName){
+  const sourceLeads = leads.filter(l => l.source === sourceName).sort((a,b)=>scoreLead(b)-scoreLead(a));
+  const pipeline = sourceLeads.reduce((s,l)=>s+(l.revenue||0),0);
+  const weighted = sourceLeads.reduce((s,l)=>s+scoreLead(l),0);
+  const active = sourceLeads.filter(l => ["Pre-Approved","Application","Under Contract","Processing","Clear to Close"].includes(l.stage)).length;
+  const closed = sourceLeads.filter(l => l.stage === "Closed").length;
+  const engaged = sourceLeads.filter(l => l.status === "Engaged" || l.status === "Active" || l.status === "Closed").length;
+  document.getElementById(pageId).innerHTML = `
+    <div class="section ${sourceClass(sourceName)}">
+      <h3>${sourceName}</h3>
+      <div class="small">This page tracks only ${sourceName} leads, ROI, and current status.</div>
     </div>
-  `).join("");
+    <div class="source-page-grid">
+      <div class="metric"><div class="label">Pipeline</div><div class="value">$${Math.round(pipeline)}</div></div>
+      <div class="metric"><div class="label">Weighted</div><div class="value">$${Math.round(weighted)}</div></div>
+      <div class="metric"><div class="label">Lead Count</div><div class="value">${sourceLeads.length}</div></div>
+      <div class="metric"><div class="label">Engaged</div><div class="value">${engaged}</div></div>
+      <div class="metric"><div class="label">Active</div><div class="value">${active}</div></div>
+      <div class="metric"><div class="label">Closed</div><div class="value">${closed}</div></div>
+    </div>
+    <div class="section">
+      <h3>${sourceName} Leads</h3>
+      <div class="small">ROI view = Revenue versus Score. Status and stage are tracked on each lead card.</div>
+      ${sourceLeads.length ? sourceLeads.map(renderLeadCard).join("") : "<div class='small'>No leads in this channel yet.</div>"}
+    </div>
+  `;
 }
-function renderLeadList(){
-  const div = document.getElementById("leadList");
-  const data = filteredLeads();
-  div.innerHTML = "";
-  data.forEach((l,i)=>{
-    const p = probability(l);
-    div.innerHTML += `<div class="lead-card ${sourceClass(l.source)}">
-      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
-        <div>
-          <h4>${l.name}</h4>
-          <span class="pill">${l.source}</span>
-          <span class="pill">${l.status}</span>
-          <span class="pill">${l.stage}</span>
-          <span class="pill">Day ${l.day}</span>
-        </div>
-        <div><span class="pill">Score $${scoreLead(l)}</span></div>
-      </div>
-      <div style="margin-top:8px">Loan: $${l.loan || 0} | Revenue: $${l.revenue || 0}</div>
-      <div style="margin-top:6px">Probability: ${p}% | Next: ${nextStep(l)}</div>
-      <div class="bar"><div class="fill ${healthClass(p)}" style="width:${p}%"></div></div>
-      <div style="margin-top:8px"><b>Script:</b> ${script(l)}</div><div class="priority-box">${priorityExplanation(l)}</div><div class="action-box">${recommendedAction(l)}</div><div class="script-box">${sourceSpecificScriptBox(l)}</div><div class="attempt-box">${attemptSummary(l)}</div><div class="followup-box">${followUpSummary(l)}</div>
-      <div style="margin-top:10px">
-        <button class="copy small-btn" onclick="copyScript(${i})">Copy</button>
-        <button class="small-btn" onclick="markSpoke(${i})">Spoke</button>
-        <button class="small-btn" onclick="markApplied(${i})">Applied</button>
-        <button class="small-btn" onclick="markClosed(${i})">Closed</button>
-        <button class="small-btn muted-btn" onclick="moveStageByFilteredIndex(${i}, -1)">← Back</button>
-        <button class="small-btn" onclick="moveStageByFilteredIndex(${i}, 1)">Forward →</button>
-      </div>
-      <div class="attempt-row">
-        <button class="small-btn" onclick="logAttemptByFilteredIndex(${i}, 'call')">Log Call</button>
-        <button class="small-btn" onclick="logAttemptByFilteredIndex(${i}, 'text')">Log Text</button>
-        <button class="small-btn" onclick="logAttemptByFilteredIndex(${i}, 'email')">Log Email</button>
-      </div>
-      <div class="small" style="margin-top:8px">
-        Stage ${stageWeight(l.stage).toFixed(2)} × Source ${sourceWeight(l.source).toFixed(2)} × Engagement ${engagementWeight(l).toFixed(2)} × Time ${timeWeight(l).toFixed(2)}
-      </div>
-    </div>`;
-  });
-}
-function renderKanban(){
-  const board = document.getElementById("kanbanBoard");
-  board.innerHTML = STAGES.map(stage => {
-    const items = leads.filter(l => (l.stage || "New Lead") === stage).sort((a,b)=>scoreLead(b)-scoreLead(a));
-    return `<div class="column">
-      <div class="column-header">
-        <div class="column-title">${stage}</div>
-        <div class="column-count">${items.length} deal(s)</div>
-      </div>
-      ${items.map(l => `
-        <div class="lead-card ${sourceClass(l.source)}">
-          <h4>${l.name}</h4>
-          <span class="pill">${l.source}</span>
-          <span class="pill">Score $${scoreLead(l)}</span>
-          <div style="margin-top:6px">Loan: $${l.loan || 0} | Revenue: $${l.revenue || 0}</div>
-          <div style="margin-top:6px">Day ${l.day} • ${nextStep(l)}</div><div class="priority-box">${priorityExplanation(l)}</div>
-          <div class="bar"><div class="fill ${healthClass(probability(l))}" style="width:${probability(l)}%"></div></div>
-          <div class="attempt-row">
-            <button class="small-btn" onclick="logAttemptById('${l.id}', 'call')">Log Call</button>
-            <button class="small-btn" onclick="logAttemptById('${l.id}', 'text')">Log Text</button>
-            <button class="small-btn" onclick="logAttemptById('${l.id}', 'email')">Log Email</button>
-          </div>
-          <div class="stage-chip">
-            ${STAGES.indexOf(stage) > 0 ? `<button class="small-btn muted-btn" onclick="setStageByBoardId('${STAGES[STAGES.indexOf(stage)-1]}','${l.id}')">← Back</button>` : ""}
-            ${STAGES.indexOf(stage) < STAGES.length - 1 ? `<button class="small-btn" onclick="setStageByBoardId('${STAGES[STAGES.indexOf(stage)+1]}','${l.id}')">Next →</button>` : ""}
-          </div>
-        </div>
-      `).join("")}
-    </div>`;
-  }).join("");
-}
-
 function exportBackup(){
-  const payload = {
-    app: "Richard Ma CRM",
-    version: "V3.0",
-    exportedAt: new Date().toISOString(),
-    leadCount: leads.length,
-    leads: leads
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], {type: "application/json"});
+  const payload = {app:"Richard Ma CRM", version:"V4.0", exportedAt:new Date().toISOString(), leads:leads};
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");
-  a.href = url;
-  a.download = "crm-backup-" + stamp + ".json";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  localStorage.setItem("crm_last_backup_at", new Date().toISOString());
-  renderBackupReminder();
+  a.href = url; a.download = "crm-backup-" + stamp + ".json";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
   document.getElementById("results").innerText = "Backup exported successfully.";
 }
 function importBackupFromFile(file){
@@ -836,186 +514,30 @@ function importBackupFromFile(file){
   reader.onload = function(e){
     try{
       const parsed = JSON.parse(e.target.result);
-      let restored = [];
-      if(Array.isArray(parsed)) restored = parsed;
-      else if(parsed && Array.isArray(parsed.leads)) restored = parsed.leads;
-      else throw new Error("Backup format not recognized");
+      const restored = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.leads) ? parsed.leads : null);
+      if(!restored) throw new Error("Backup format not recognized");
       if(!confirm("Restore this backup and replace current CRM data?")) return;
-      leads = restored;
-      save();
-      renderAll();
+      leads = restored; save(); renderAll();
       document.getElementById("results").innerText = "Backup restored successfully.";
       setStatus("Backup restored successfully");
     }catch(err){
       document.getElementById("results").innerText = "Restore failed: " + err.message;
-      setStatus("Restore failed");
     }
   };
   reader.readAsText(file);
 }
 function runSelfCheck(){ document.getElementById("results").innerText = "System check passed"; }
-
-function formatBackupReminderDate(iso){
-  if(!iso) return "never";
-  const d = new Date(iso);
-  if(isNaN(d.getTime())) return "unknown";
-  return d.toLocaleDateString();
-}
-
-const APP_VERSION = "V3.1";
-const APP_UPDATED_AT = "2026-04-15 02:10 PM";
-
-const DEPLOY_VERSION_KEY = "crm_deploy_version";
-const DEPLOY_UPDATED_KEY = "crm_deploy_updated_at";
-
-function getCurrentBuildSignature(){
-  return APP_VERSION + " • " + APP_UPDATED_AT;
-}
-
-function renderVersionWarning(){
-  const box = document.getElementById("versionWarning");
-  const protocol = window.location.protocol || "";
-  const host = window.location.hostname || "";
-  const current = getCurrentBuildSignature();
-
-  // Live Vercel version becomes the reference
-  if(host.includes("vercel.app")){
-    localStorage.setItem(DEPLOY_VERSION_KEY, APP_VERSION);
-    localStorage.setItem(DEPLOY_UPDATED_KEY, APP_UPDATED_AT);
-  }
-
-  const liveVersion = localStorage.getItem(DEPLOY_VERSION_KEY);
-  const liveUpdated = localStorage.getItem(DEPLOY_UPDATED_KEY);
-  const knownLive = liveVersion && liveUpdated ? (liveVersion + " • " + liveUpdated) : "";
-
-  let show = false;
-  let cls = "version-warning-match";
-  let text = "";
-
-  if(protocol === "file:" && knownLive){
-    show = true;
-    if(current !== knownLive){
-      cls = "version-warning-mismatch";
-      text = "Version mismatch warning — This local file does not match the most recently opened live Vercel version. Local: " + current + " | Live: " + knownLive;
-    } else {
-      cls = "version-warning-match";
-      text = "Version check — This local file matches the most recently opened live Vercel version.";
-    }
-  } else if(host.includes("vercel.app")){
-    show = true;
-    cls = "version-warning-match";
-    text = "Version check — You are viewing the live deployment reference for this CRM.";
-  } else if(knownLive){
-    show = true;
-    if(current !== knownLive){
-      cls = "version-warning-mismatch";
-      text = "Version mismatch warning — This hosted copy does not match the most recently opened live Vercel version.";
-    } else {
-      cls = "version-warning-match";
-      text = "Version check — This hosted copy matches the most recently opened live Vercel version.";
-    }
-  }
-
-  box.className = "version-warning " + cls;
-  box.style.display = show ? "block" : "none";
-  box.textContent = text;
-  if(show) autoHideBanner("versionWarning", 5000);
-}
-
-
-
-function autoHideBanner(id, delayMs){
-  const el = document.getElementById(id);
-  if(!el || el.style.display === "none") return;
-  el.classList.add("fade-hide");
-  setTimeout(() => {
-    el.classList.add("is-hidden");
-  }, delayMs);
-  setTimeout(() => {
-    el.style.display = "none";
-    el.classList.remove("is-hidden");
-  }, delayMs + 700);
-}
-
-function renderDeploymentStatus(){
-  const box = document.getElementById("deploymentStatus");
-  const host = window.location.hostname || "";
-  const protocol = window.location.protocol || "";
-  let cls = "deploy-local";
-  let text = "Local Preview — You are viewing a local file. Upload to GitHub/Vercel to make this live.";
-  if(protocol === "file:"){
-    cls = "deploy-local";
-    text = "Local Preview — You are viewing a local file. Upload to GitHub/Vercel to make this live.";
-  } else if(host.includes("vercel.app")){
-    cls = "deploy-live";
-    text = "Live Deployment — This is the live Vercel version now serving publicly.";
-  } else if(host === "localhost" || host === "127.0.0.1"){
-    cls = "deploy-preview";
-    text = "Local Server Preview — You are viewing a development/preview environment.";
-  } else if(host){
-    cls = "deploy-preview";
-    text = "Hosted Preview — You are viewing a hosted copy on " + host + ".";
-  }
-  box.className = "deploy-status " + cls;
-  box.style.display = "block";
-  box.textContent = text + " • " + APP_VERSION + " • Updated " + APP_UPDATED_AT;
-  autoHideBanner("deploymentStatus", 4000);
-}
-
-function renderVersionBadge(){
-  const protocol = window.location.protocol || "";
-  const env = protocol === "file:" ? "Local" : "Hosted";
-  const badge = document.getElementById("versionBadge");
-  if(badge){
-    badge.textContent = "Version: " + APP_VERSION + " • Updated: " + APP_UPDATED_AT + " • Mode: " + env;
-  }
-}
-
-function renderBackupReminder(){
-  const box = document.getElementById("backupReminder");
-  const last = localStorage.getItem("crm_last_backup_at");
-  const now = new Date();
-  let show = false;
-  let text = "";
-  if(!last){
-    show = true;
-    text = "Backup reminder: You have not exported a backup yet. Click “Backup JSON” today.";
-  } else {
-    const lastDate = new Date(last);
-    const diffDays = Math.floor((now - lastDate) / (1000 * 60 * 60 * 24));
-    if(diffDays >= 7){
-      show = true;
-      text = "Backup reminder: Your last backup was on " + formatBackupReminderDate(last) + ". Export a fresh backup today.";
-    } else if(diffDays >= 3){
-      show = true;
-      text = "Backup reminder: Last backup was " + diffDays + " day(s) ago on " + formatBackupReminderDate(last) + ". Consider exporting a new backup soon.";
-    }
-  }
-  box.style.display = show ? "block" : "none";
-  box.textContent = text;
-}
-
-document.getElementById("search").addEventListener("input", renderAll);
-document.getElementById("statusFilter").addEventListener("change", renderAll);
-document.getElementById("stageFilter").addEventListener("change", renderAll);
-document.getElementById("sourceFilter").addEventListener("change", renderAll);
-document.getElementById("importBackupFile").addEventListener("change", function(e){
-  importBackupFromFile(e.target.files[0]);
-  e.target.value = "";
-});
+document.getElementById("importBackupFile").addEventListener("change", function(e){ importBackupFromFile(e.target.files[0]); e.target.value = ""; });
 
 function renderAll(){
   ensureIds();
-  renderDeploymentStatus();
-  renderVersionBadge();
-  renderVersionWarning();
-  renderBackupReminder();
-  renderFollowUpDueToday();
   renderMetrics();
   renderTodayDeals();
-  renderAlerts();
-  renderLeadList();
-  renderKanban();
+  renderFollowUpDueToday();
+  renderSourcePage("leverage", SOURCE_PAGE_CONFIG.leverage);
+  renderSourcePage("whitecoat", SOURCE_PAGE_CONFIG.whitecoat);
+  renderSourcePage("digital", SOURCE_PAGE_CONFIG.digital);
+  renderSourcePage("private", SOURCE_PAGE_CONFIG.private);
 }
 renderAll();
 dailyMode();
