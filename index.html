@@ -90,6 +90,7 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
           <option>Private Mortgage Leads - DSCR</option>
         </select>
         <input id="revenue" placeholder="Revenue">
+        <input id="cost" placeholder="Lead Cost">
       </div>
       <div class="actions" style="margin-top:8px">
         <button onclick="autoCalcRevenue()">Auto-Calc Revenue</button>
@@ -359,7 +360,7 @@ function addLead(){
     loan: +document.getElementById("loan").value || 0,
     source: document.getElementById("source").value,
     revenue: +document.getElementById("revenue").value || calcRevenue(),
-    cost: 0,
+    cost: +document.getElementById("cost").value || 0,
     day: 1,
     status: "New",
     stage: "New Lead",
@@ -373,6 +374,7 @@ function addLead(){
   document.getElementById("name").value = "";
   document.getElementById("loan").value = "";
   document.getElementById("revenue").value = "";
+  document.getElementById("cost").value = "";
   document.getElementById("source").value = "Leverage RX";
 }
 function runAutomation(){ leads.forEach(l => l.day++); save(); renderAll(); setStatus("Automation ran successfully"); }
@@ -443,7 +445,7 @@ function renderLeadCard(l){
         <button class="small-btn muted-btn" onclick="setStageById('${l.id}',-1)">← Back</button>
         <button class="small-btn" onclick="setStageById('${l.id}',1)">Forward →</button>
       </div>
-      <div class="small" style="margin-top:8px">ROI View: Revenue $${l.revenue || 0} • Score $${scoreLead(l)} • Stage ${stageWeight(l.stage).toFixed(2)} • Source ${sourceWeight(l.source).toFixed(2)}</div>
+      <div class="small" style="margin-top:8px">ROI View: Revenue $${l.revenue || 0} • Cost $${l.cost || 0} • Score $${scoreLead(l)} • Stage ${stageWeight(l.stage).toFixed(2)} • Source ${sourceWeight(l.source).toFixed(2)}</div>
     </div>
   `;
 }
@@ -478,6 +480,9 @@ function renderSourcePage(pageId, sourceName){
   const active = sourceLeads.filter(l => ["Pre-Approved","Application","Under Contract","Processing","Clear to Close"].includes(l.stage)).length;
   const closed = sourceLeads.filter(l => l.stage === "Closed").length;
   const engaged = sourceLeads.filter(l => l.status === "Engaged" || l.status === "Active" || l.status === "Closed").length;
+  const totalCost = sourceLeads.reduce((s,l)=>s+(Number(l.cost)||0),0);
+  const closedRevenue = sourceLeads.filter(l => l.stage === "Closed").reduce((s,l)=>s+(Number(l.revenue)||0),0);
+  const roiPct = totalCost ? Math.round(((closedRevenue - totalCost)/totalCost)*100) : 0;
   document.getElementById(pageId).innerHTML = `
     <div class="section ${sourceClass(sourceName)}">
       <h3>${sourceName}</h3>
@@ -490,6 +495,10 @@ function renderSourcePage(pageId, sourceName){
       <div class="metric"><div class="label">Engaged</div><div class="value">${engaged}</div></div>
       <div class="metric"><div class="label">Active</div><div class="value">${active}</div></div>
       <div class="metric"><div class="label">Closed</div><div class="value">${closed}</div></div>
+      <div class="metric"><div class="label">Conversion %</div><div class="value">${sourceLeads.length ? Math.round((closed/sourceLeads.length)*100) : 0}%</div></div>
+      <div class="metric"><div class="label">Total Cost</div><div class="value">$${Math.round(totalCost)}</div></div>
+      <div class="metric"><div class="label">Closed Revenue</div><div class="value">$${Math.round(closedRevenue)}</div></div>
+      <div class="metric"><div class="label">ROI %</div><div class="value">${roiPct}%</div></div>
     </div>
     <div class="section">
       <h3>${sourceName} Leads</h3>
