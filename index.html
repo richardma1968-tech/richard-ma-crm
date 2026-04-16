@@ -59,6 +59,8 @@ input,select{padding:10px;border-radius:10px;border:1px solid var(--border);back
 .version-warning{margin-top:12px;padding:12px;border-radius:12px;font-size:13px;font-weight:700;display:none}
 .version-warning-mismatch{background:#fff1f2;border:1px solid #fda4af;color:#9f1239}
 .version-warning-match{background:#ecfdf5;border:1px solid #86efac;color:#166534}
+.fade-hide{transition:opacity .6s ease}
+.is-hidden{opacity:0}
 
 .due-box{margin-top:8px;padding:10px;border-radius:10px;background:#fff1f2;border:1px solid #fecdd3;color:#9f1239;font-size:13px}
 
@@ -917,8 +919,23 @@ function renderVersionWarning(){
   box.className = "version-warning " + cls;
   box.style.display = show ? "block" : "none";
   box.textContent = text;
+  if(show) autoHideBanner("versionWarning", 5000);
 }
 
+
+
+function autoHideBanner(id, delayMs){
+  const el = document.getElementById(id);
+  if(!el || el.style.display === "none") return;
+  el.classList.add("fade-hide");
+  setTimeout(() => {
+    el.classList.add("is-hidden");
+  }, delayMs);
+  setTimeout(() => {
+    el.style.display = "none";
+    el.classList.remove("is-hidden");
+  }, delayMs + 700);
+}
 
 function renderDeploymentStatus(){
   const box = document.getElementById("deploymentStatus");
@@ -942,6 +959,7 @@ function renderDeploymentStatus(){
   box.className = "deploy-status " + cls;
   box.style.display = "block";
   box.textContent = text + " • " + APP_VERSION + " • Updated " + APP_UPDATED_AT;
+  autoHideBanner("deploymentStatus", 4000);
 }
 
 function renderVersionBadge(){
